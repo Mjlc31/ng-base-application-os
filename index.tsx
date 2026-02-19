@@ -1,4 +1,5 @@
 import React from 'react';
+import './index.css'; // Importa estilos globais para o Vite processar
 import ReactDOM from 'react-dom/client';
 import App from './App';
 
