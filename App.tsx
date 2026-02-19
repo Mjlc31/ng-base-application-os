@@ -18,9 +18,13 @@ import { ErrorMessage } from './components/ErrorMessage';
 import { SuccessScreen } from './components/SuccessScreen';
 import { ApplicationForm } from './types';
 
-// Lazy load heavy visual components
-const MeshBackground = React.lazy(() => import('./components/ui/MeshBackground').then(module => ({ default: module.MeshBackground })));
-const MoneyRain = React.lazy(() => import('./components/ui/MoneyRain').then(module => ({ default: module.MoneyRain })));
+// Imports diretos para evitar erro de chunk loading
+import { MeshBackground } from './components/ui/MeshBackground';
+import { MoneyRain } from './components/ui/MoneyRain';
+
+// Lazy load removido temporariamente para estabilidade
+// const MeshBackground = React.lazy(() => import('./components/ui/MeshBackground').then(module => ({ default: module.MeshBackground })));
+// const MoneyRain = React.lazy(() => import('./components/ui/MoneyRain').then(module => ({ default: module.MoneyRain })));
 
 /**
  * Componente principal da aplicação
@@ -31,24 +35,7 @@ export default function App() {
   const step = FORM_STEPS[form.currentStepIndex];
   const progress = ((form.currentStepIndex + 1) / FORM_STEPS.length) * 100;
 
-  /**
-   * Handler para mudanças de input com formatação
-   */
-  const handleInputChange = (field: keyof ApplicationForm, value: string) => {
-    // Aplica formatação de telefone se necessário
-    const finalValue = field === 'whatsapp' ? formatPhoneNumber(value) : value;
-    form.handleInputChange(field, finalValue);
-  };
-
-  /**
-   * Handler para tecla Enter
-   */
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      form.handleNext();
-    }
-  };
+  // ... handlers ...
 
   // Tela de sucesso
   if (form.isSuccess) {
@@ -56,9 +43,7 @@ export default function App() {
       <main className="min-h-[100dvh] relative font-sans text-white overflow-hidden bg-background">
         <MeshBackground />
         <MoneyRain />
-        <Suspense fallback={<div>Carregando...</div>}>
-          <SuccessScreen />
-        </Suspense>
+        <SuccessScreen />
       </main>
     );
   }
@@ -66,12 +51,8 @@ export default function App() {
   // Formulário principal
   return (
     <main className="min-h-[100dvh] relative font-sans text-white overflow-hidden bg-background flex flex-col">
-      <Suspense fallback={<div className="fixed inset-0 bg-[#050505]" />}>
-        <MeshBackground />
-      </Suspense>
-      <Suspense fallback={null}>
-        <MoneyRain />
-      </Suspense>
+      <MeshBackground />
+      <MoneyRain />
 
       <FormHeader />
       <ProgressBar progress={progress} />
