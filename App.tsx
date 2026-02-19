@@ -35,7 +35,24 @@ export default function App() {
   const step = FORM_STEPS[form.currentStepIndex];
   const progress = ((form.currentStepIndex + 1) / FORM_STEPS.length) * 100;
 
-  // ... handlers ...
+  /**
+   * Handler para mudanças de input com formatação
+   */
+  const handleInputChange = (field: keyof ApplicationForm, value: string) => {
+    // Aplica formatação de telefone se necessário
+    const finalValue = field === 'whatsapp' ? formatPhoneNumber(value) : value;
+    form.handleInputChange(field, finalValue);
+  };
+
+  /**
+   * Handler para tecla Enter
+   */
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      form.handleNext();
+    }
+  };
 
   // Tela de sucesso
   if (form.isSuccess) {
