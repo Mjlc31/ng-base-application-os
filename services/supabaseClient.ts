@@ -10,8 +10,12 @@ import { retryWithBackoff, createError, ErrorType, logError } from '../utils/err
 import { sanitizeFormData, sanitizeEmail, sanitizePhone, sanitizeInstagram } from '../utils/sanitize';
 
 // Configuração do Supabase
-const supabaseUrl = import.meta.env.NEXT_PUBLIC_SUPABASE_URL || 'https://qsvabiflvypinzwbdlhx.supabase.co';
-const supabaseAnonKey = import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'sb_publishable_0Pn9XTk7whN2pD1GEbMu_g_Rv_EHsL_';
+const supabaseUrl = import.meta.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('❌ ERRO CRÍTICO: Variáveis de ambiente do Supabase não encontradas.');
+}
 
 // Cria cliente Supabase
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {

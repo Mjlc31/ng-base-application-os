@@ -89,6 +89,14 @@ export const useFormStep = (steps: StepConfig[]): UseFormStepReturn => {
             setDirection(1);
             setCurrentStepIndex(prev => prev + 1);
             setError(null);
+
+            // AUTO-SAVE DRAFT (Fire and Forget)
+            // Salva rascunho em background se já tiver indentificação (Step 2 ou 3)
+            // Importado dinamicamente para evitar ciclos se necessário, ou usar direto se a arquitetura permitir
+            import('../services/automationService').then(mod => {
+                mod.saveDraft(formData);
+            });
+
             return;
         }
 
