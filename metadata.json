@@ -1,0 +1,5 @@
+{
+  "name": "NG.BASE Application OS",
+  "description": "Exclusive application portal for NG.HUB event. High-performance SPA with Typeform-style UX and Supabase integration.",
+  "requestFramePermissions": []
+}
