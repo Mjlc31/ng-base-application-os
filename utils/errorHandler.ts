@@ -44,7 +44,7 @@ export const createError = (
  * Loga erro no console (em produção, enviaria para serviço de logging)
  */
 export const logError = (error: AppError): void => {
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
         console.error('[NG.BASE Error]', {
             type: error.type,
             message: error.message,

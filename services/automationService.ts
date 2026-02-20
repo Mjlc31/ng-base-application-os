@@ -61,10 +61,10 @@ export const saveDraft = async (data: Partial<ApplicationForm>) => {
         // 3. Executa Upsert
         if (existingLead) {
             await supabase.from('leads').update(payload).eq('id', existingLead.id);
-            if (process.env.NODE_ENV === 'development') console.log('📝 Rascunho atualizado:', existingLead.id);
+            if (import.meta.env.DEV) console.log('📝 Rascunho atualizado:', existingLead.id);
         } else {
             await supabase.from('leads').insert([payload]);
-            if (process.env.NODE_ENV === 'development') console.log('📝 Novo rascunho criado');
+            if (import.meta.env.DEV) console.log('📝 Novo rascunho criado');
         }
 
     } catch (error) {
