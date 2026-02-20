@@ -79,7 +79,7 @@ export default function App() {
 
       {/* Main Form Area */}
       <div className="flex-1 w-full overflow-y-auto overflow-x-hidden custom-scrollbar z-10 flex flex-col relative">
-        <div className="flex-1 flex flex-col justify-center items-center w-full max-w-3xl mx-auto px-6 py-20 min-h-max">
+        <div className="flex-1 flex flex-col justify-center items-center w-full max-w-3xl mx-auto px-6 py-10 md:py-8 min-h-max">
           <AnimatePresence mode="wait" custom={form.direction}>
             <motion.div
               key={step.id}
@@ -91,7 +91,7 @@ export default function App() {
               className="w-full"
             >
               {/* Question Counter */}
-              <div className="flex items-center gap-3 mb-8">
+              <div className="flex items-center gap-3 mb-6">
                 <span className="text-ngGold-500 text-sm font-mono border border-ngGold-500/30 px-3 py-1.5 rounded-md bg-ngGold-500/5 backdrop-blur-sm shadow-[0_0_15px_rgba(197,160,89,0.1)]">
                   {form.currentStepIndex + 1} / {FORM_STEPS.length}
                 </span>
@@ -99,13 +99,13 @@ export default function App() {
               </div>
 
               {/* Question Text with Gradient */}
-              <h2 className="text-3xl md:text-6xl lg:text-7xl font-sans font-bold mb-3 md:mb-6 leading-[1.1] tracking-tight">
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-sans font-bold mb-3 md:mb-4 leading-[1.1] tracking-tight">
                 <span className="bg-gradient-to-br from-white via-white to-neutral-300 bg-clip-text text-transparent">
                   {step.question}
                 </span>
               </h2>
               {step.subtext && (
-                <p className="text-neutral-400 text-lg md:text-2xl mb-6 md:mb-12 font-sans font-light leading-relaxed max-w-2xl">
+                <p className="text-neutral-400 text-lg md:text-xl mb-6 md:mb-8 font-sans font-light leading-relaxed max-w-2xl">
                   {step.subtext}
                 </p>
               )}
@@ -114,7 +114,7 @@ export default function App() {
               <div className="mb-10 w-full">
                 {step.type === 'select' ? (
                   <div
-                    className="flex flex-col gap-2.5 md:gap-4 w-full"
+                    className="flex flex-col gap-2 md:gap-3 w-full"
                     role="radiogroup"
                     aria-label={step.ariaLabel || step.question}
                   >
@@ -135,7 +135,7 @@ export default function App() {
                           }, 350);
                         }}
                         className={`
-                        relative overflow-hidden text-left p-3.5 md:p-6 rounded-xl border text-base md:text-xl 
+                        relative overflow-hidden text-left p-3.5 md:px-5 md:py-3.5 rounded-xl border text-base md:text-lg 
                         transition-all duration-300 w-full group backdrop-blur-sm
                         ${form.formData[step.field] === opt
                             ? 'border-ngGold-500 bg-ngGold-500/10 text-white shadow-[0_0_30px_rgba(197,160,89,0.2)]'
