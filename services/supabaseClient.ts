@@ -200,7 +200,7 @@ export const submitApplication = async (data: ApplicationForm): Promise<void> =>
 export const testConnection = async (): Promise<boolean> => {
   try {
     const { error } = await supabase
-      .from('ng_applications')
+      .from('leads')
       .select('count')
       .limit(1);
 

@@ -21,9 +21,13 @@ export const MoneyRain: React.FC = React.memo(() => {
     canvas.width = width;
     canvas.height = height;
 
+    const isMobile = width < 768;
+
     // Mais espaço entre as colunas para um visual mais limpo/arejado
-    const fontSize = 16;
-    const columns = Math.floor(width / fontSize);
+    // No mobile aumentamos significativamente o espaçamento e fonte para reduzir a contagem de elementos
+    const fontSize = isMobile ? 24 : 16;
+    const gapMultiplier = isMobile ? 4 : 1.5;
+    const columns = Math.floor(width / (fontSize * gapMultiplier));
 
     // Minimalist symbols
     const symbols = "$R$";
@@ -34,8 +38,8 @@ export const MoneyRain: React.FC = React.memo(() => {
       drops[i] = Math.random() * -100; // Start at random heights above
     }
 
-    // Target FPS (20 FPS é suficiente para efeito de fundo)
-    const targetFPS = 20;
+    // Target FPS (12 FPS em mobile para poupar bateria e diminuir travamentos)
+    const targetFPS = isMobile ? 12 : 20;
     const frameInterval = 1000 / targetFPS;
 
     const draw = (currentTime: number) => {
@@ -72,10 +76,8 @@ export const MoneyRain: React.FC = React.memo(() => {
 
         // Only draw if within screen (optimization)
         if (y < height + fontSize) {
-          // Subtle shimmer
-          ctx.globalAlpha = Math.random() * 0.4 + 0.2;
+          // Removido globalAlpha randômico super pesado. O shimmer agora é puramente estático mas elegante
           ctx.fillText(text, x, y);
-          ctx.globalAlpha = 1.0;
         }
 
         // Reset drop to top randomly or move down
