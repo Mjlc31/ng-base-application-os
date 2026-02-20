@@ -9,21 +9,58 @@ import { ApplicationForm } from '../types';
 import { retryWithBackoff, createError, ErrorType, logError } from '../utils/errorHandler';
 import { sanitizeFormData, sanitizeEmail, sanitizePhone, sanitizeInstagram } from '../utils/sanitize';
 
-// Configuração do Supabase
-const supabaseUrl = import.meta.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseAnonKey = import.meta.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// Configuração Robusta do Supabase (Vite + Vercel)
+// Tenta ler variáveis de ambiente de múltiplas fontes para garantir compatibilidade
+const getEnvVar = (key: string): string | undefined => {
+  // 1. Tenta import.meta.env (Vite Default)
+  if (import.meta.env[key]) return import.meta.env[key];
+
+  // 2. Tenta variantes com prefixo VITE_ se a chave for NEXT_PUBLIC_
+  if (key.startsWith('NEXT_PUBLIC_')) {
+    const viteKey = key.replace('NEXT_PUBLIC_', 'VITE_');
+    if (import.meta.env[viteKey]) return import.meta.env[viteKey];
+  }
+
+  // 3. Fallback para process.env (compatibilidade Node/alguns bundlers)
+  try {
+    // @ts-ignore
+    if (process?.env?.[key]) return process.env[key];
+  } catch (e) {
+    // process não definido no browser
+  }
+
+  return undefined;
+};
+
+// Busca as chaves
+const supabaseUrl = getEnvVar('NEXT_PUBLIC_SUPABASE_URL') || getEnvVar('VITE_SUPABASE_URL');
+const supabaseAnonKey = getEnvVar('NEXT_PUBLIC_SUPABASE_ANON_KEY') || getEnvVar('VITE_SUPABASE_ANON_KEY');
+
+// Log de Diagnóstico (Seguro - não expõe chaves completas)
+console.log('🔌 [Supabase] Inicializando...', {
+  url: supabaseUrl ? '✅ Definida' : '❌ Faltando',
+  key: supabaseAnonKey ? '✅ Definida' : '❌ Faltando',
+  env_mode: import.meta.env.MODE,
+  base_url: supabaseUrl
+});
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  console.error('❌ ERRO CRÍTICO: Variáveis de ambiente do Supabase não encontradas.');
+  console.error('❌ [Supabase] ERRO CRÍTICO: Variáveis de ambiente não encontradas.');
+  console.error('   Verifique se NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY estão definidas no Vercel.');
 }
 
 // Cria cliente Supabase
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    persistSession: false,
-    autoRefreshToken: false
+export const supabase = createClient(
+  supabaseUrl || 'https://placeholder.supabase.co', // Evita crash imediato, falha na conexão depois
+  supabaseAnonKey || 'placeholder-key',
+  {
+    auth: {
+      persistSession: true, // Alterado para true para persistir login se necessário
+      autoRefreshToken: true,
+      detectSessionInUrl: true
+    }
   }
-});
+);
 
 /**
  * Valida dados do formulário antes de submeter
