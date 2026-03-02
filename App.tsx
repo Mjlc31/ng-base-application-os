@@ -15,7 +15,7 @@ import { BorderBeamInput } from './components/ui/BorderBeamInput';
 import { ProgressBar } from './components/ProgressBar';
 import { FormHeader } from './components/FormHeader';
 import { ErrorMessage } from './components/ErrorMessage';
-import { SuccessScreen } from './components/SuccessScreen';
+import { PaymentScreen } from './components/PaymentScreen';
 import { ApplicationForm } from './types';
 
 // Imports diretos para evitar erro de chunk loading
@@ -64,7 +64,7 @@ export default function App() {
     return (
       <main className="min-h-[100dvh] relative font-sans text-white overflow-hidden bg-background">
         <MeshBackground />
-        <SuccessScreen />
+        <PaymentScreen />
       </main>
     );
   }
