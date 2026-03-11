@@ -1,0 +1,9 @@
+[submodule ".agents/context/get-shit-done"]
+	path = .agents/context/get-shit-done
+	url = https://github.com/gsd-build/get-shit-done.git
+[submodule ".agents/skills/ui-ux-pro-max-skill"]
+	path = .agents/skills/ui-ux-pro-max-skill
+	url = https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
+[submodule ".agents/skills/awesome-claude-skills"]
+	path = .agents/skills/awesome-claude-skills
+	url = https://github.com/ComposioHQ/awesome-claude-skills.git
