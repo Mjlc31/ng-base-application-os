@@ -71,12 +71,12 @@ export const BorderBeamInput: React.FC<BorderBeamInputProps> = React.memo((({
           onBlur={handleBlur}
           aria-label={ariaLabel || props.placeholder}
           className={`
-            w-full bg-[#080808] text-white text-xl md:text-2xl lg:text-3xl font-light placeholder-neutral-700 
+            w-full bg-[#080808]/80 backdrop-blur-sm text-white text-lg sm:text-xl lg:text-3xl font-light placeholder-neutral-700 
             border border-white/10 rounded-xl focus:border-transparent focus:outline-none 
-            px-5 py-5 md:py-7 transition-all duration-300
-            ${as === 'textarea' ? 'min-h-[180px] resize-none' : ''}
-            ${isFocused ? 'shadow-[0_0_30px_rgba(197,160,89,0.15)]' : ''}
-            ${props.value && (props.value as string).length > 0 ? 'bg-white/[0.02]' : ''}
+            px-4 py-4 sm:px-5 sm:py-6 lg:py-7 transition-all duration-300
+            ${as === 'textarea' ? 'min-h-[140px] md:min-h-[180px] resize-none' : ''}
+            ${isFocused ? 'shadow-[0_0_30px_rgba(197,160,89,0.15)] bg-[#0b0b0b]' : ''}
+            ${props.value && (props.value as string).length > 0 ? 'bg-white/[0.03]' : ''}
             ${className}
           `}
         />

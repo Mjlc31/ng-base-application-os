@@ -1,14 +1,14 @@
 /**
  * Componente de header do formulário
  * 
- * Exibe logo NG.BASE e badge de segurança
+ * Exibe logo NG.RITMO e badge de segurança
  */
 
 import React from 'react';
 import { motion } from 'framer-motion';
 
 /**
- * Header fixo com branding NG.BASE
+ * Header fixo com branding NG.RITMO
  */
 export const FormHeader: React.FC = React.memo(() => {
     return (
@@ -17,7 +17,7 @@ export const FormHeader: React.FC = React.memo(() => {
             role="banner"
         >
             <div className="flex flex-col items-start select-none pointer-events-auto">
-                {/* NG.BASE Logo Type - Matches Bodoni Moda styling */}
+                {/* NG.RITMO Logo Type - Matches Bodoni Moda styling */}
                 <motion.div
                     className="flex items-center gap-2"
                     whileHover={{ scale: 1.05 }}
@@ -27,7 +27,7 @@ export const FormHeader: React.FC = React.memo(() => {
                         NG
                     </div>
                     <span className="font-bold text-lg tracking-wider text-white font-serif">
-                        BASE
+                        RITMO
                     </span>
                 </motion.div>
             </div>

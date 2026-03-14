@@ -22,7 +22,7 @@ export const SuccessScreen: React.FC = React.memo(() => {
         initial={{ scale: 0, rotate: -180 }}
         animate={{ scale: 1, rotate: 0 }}
         transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-        className="relative w-24 h-24 bg-gradient-to-br from-ngGold-400 to-ngGold-600 rounded-full flex items-center justify-center mb-8 shadow-[0_0_50px_rgba(212,175,55,0.6)]"
+        className="relative w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-ngGold-400 to-ngGold-600 rounded-full flex items-center justify-center mb-6 sm:mb-8 shadow-[0_0_50px_rgba(212,175,55,0.6)]"
         role="img"
         aria-label="Ícone de sucesso"
       >
@@ -46,14 +46,14 @@ export const SuccessScreen: React.FC = React.memo(() => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-6 tracking-tight leading-[1.1]"
+        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-4 sm:mb-6 tracking-tight leading-[1.1]"
       >
         <span className="bg-gradient-to-br from-white via-white to-neutral-300 bg-clip-text text-transparent">
           Aplicação Recebida.
         </span>
         <br />
-        <span className="bg-gradient-to-r from-ngGold-400 via-ngGold-500 to-ngGold-600 bg-clip-text text-transparent flex items-center justify-center gap-2 mt-2">
-          Você está no radar. <Sparkles className="w-8 h-8 text-ngGold-500 animate-pulse" aria-hidden="true" />
+        <span className="bg-gradient-to-r from-ngGold-400 via-ngGold-500 to-ngGold-600 bg-clip-text text-transparent flex flex-wrap items-center justify-center gap-2 mt-2">
+          Você está no radar. <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-ngGold-500 animate-pulse" aria-hidden="true" />
         </span>
       </motion.h1>
 
@@ -61,9 +61,9 @@ export const SuccessScreen: React.FC = React.memo(() => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.5 }}
-        className="text-neutral-400 text-xl md:text-2xl max-w-2xl mb-14 leading-relaxed font-sans font-light"
+        className="text-neutral-400 text-lg sm:text-xl md:text-2xl max-w-2xl px-2 mb-10 sm:mb-14 leading-relaxed font-sans font-light"
       >
-        Nossa curadoria analisará seu perfil. O <span className="text-ngGold-500 font-medium">NG.BASE</span> é um ambiente de elite e entraremos em contato via WhatsApp em breve.
+        Nossa curadoria analisará seu perfil. O <span className="text-ngGold-500 font-medium">NG.RITMO</span> é um ambiente vibrante de aceleração e entraremos em contato via WhatsApp em breve.
       </motion.p>
 
       {/* CTA Button with enhanced effects */}
@@ -76,7 +76,7 @@ export const SuccessScreen: React.FC = React.memo(() => {
         transition={{ delay: 0.7 }}
         whileHover={{ scale: 1.05, y: -2 }}
         whileTap={{ scale: 0.95 }}
-        className="group relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-ngGold-500 to-ngGold-600 rounded-xl text-black hover:shadow-[0_10px_50px_rgba(197,160,89,0.5)] transition-all duration-300 overflow-hidden cursor-pointer font-sans font-bold text-lg"
+        className="w-full sm:w-auto overflow-hidden group relative inline-flex justify-center items-center gap-3 px-6 py-4 sm:px-10 sm:py-5 bg-gradient-to-r from-ngGold-500 to-ngGold-600 rounded-xl text-black hover:shadow-[0_10px_50px_rgba(197,160,89,0.5)] transition-all duration-300 cursor-pointer font-sans font-bold text-base sm:text-lg"
         aria-label="Acompanhe a NG.HUB no Instagram (abre em nova aba)"
       >
         {/* Shimmer effect */}

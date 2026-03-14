@@ -6,7 +6,7 @@ import React, { useEffect, useRef } from 'react';
  */
 export const MoneyRain: React.FC = React.memo(() => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number>(undefined as any);
   const lastFrameTimeRef = useRef<number>(0);
 
   useEffect(() => {

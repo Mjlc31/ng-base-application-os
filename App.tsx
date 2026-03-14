@@ -1,7 +1,7 @@
 /**
- * Aplicação Principal NG.BASE
+ * Aplicação Principal NG.RITMO
  * 
- * Formulário multi-step para aplicação ao programa NG.BASE
+ * Formulário multi-step para aplicação ao programa NG.RITMO
  * Refatorado com hooks customizados e componentes modulares
  */
 
@@ -18,13 +18,8 @@ import { ErrorMessage } from './components/ErrorMessage';
 import { PaymentScreen } from './components/PaymentScreen';
 import { ApplicationForm } from './types';
 
-// Imports diretos para evitar erro de chunk loading
+// Imports diretos para performance e estabilidade
 import { MeshBackground } from './components/ui/MeshBackground';
-// import { MoneyRain } from './components/ui/MoneyRain';
-
-// Lazy load removido temporariamente para estabilidade
-// const MeshBackground = React.lazy(() => import('./components/ui/MeshBackground').then(module => ({ default: module.MeshBackground })));
-// const MoneyRain = React.lazy(() => import('./components/ui/MoneyRain').then(module => ({ default: module.MoneyRain })));
 
 /**
  * Componente principal da aplicação
@@ -79,7 +74,7 @@ export default function App() {
 
       {/* Main Form Area */}
       <div className="flex-1 w-full overflow-y-auto overflow-x-hidden custom-scrollbar z-10 flex flex-col relative">
-        <div className="flex-1 flex flex-col justify-center items-center w-full max-w-3xl mx-auto px-6 py-10 md:py-8 min-h-max">
+        <div className="flex-1 flex flex-col justify-center items-center w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 md:py-10 min-h-max">
           <AnimatePresence mode="wait" custom={form.direction}>
             <motion.div
               key={step.id}
@@ -99,13 +94,13 @@ export default function App() {
               </div>
 
               {/* Question Text with Gradient */}
-              <h2 className="text-3xl md:text-5xl lg:text-6xl font-sans font-bold mb-3 md:mb-4 leading-[1.1] tracking-tight">
+              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-sans font-bold mb-2 md:mb-4 leading-[1.1] tracking-tight">
                 <span className="bg-gradient-to-br from-white via-white to-neutral-300 bg-clip-text text-transparent">
                   {step.question}
                 </span>
               </h2>
               {step.subtext && (
-                <p className="text-neutral-400 text-lg md:text-xl mb-6 md:mb-8 font-sans font-light leading-relaxed max-w-2xl">
+                <p className="text-neutral-400 text-base sm:text-lg md:text-xl mb-6 md:mb-10 font-sans font-light leading-relaxed max-w-2xl">
                   {step.subtext}
                 </p>
               )}
@@ -135,11 +130,11 @@ export default function App() {
                           }, 350);
                         }}
                         className={`
-                        relative overflow-hidden text-left p-3.5 md:px-5 md:py-3.5 rounded-xl border text-base md:text-lg 
+                        relative overflow-hidden text-left px-4 py-3.5 sm:px-5 sm:py-4 rounded-xl border text-sm sm:text-base md:text-lg 
                         transition-all duration-300 w-full group backdrop-blur-sm
                         ${form.formData[step.field] === opt
                             ? 'border-ngGold-500 bg-ngGold-500/10 text-white shadow-[0_0_30px_rgba(197,160,89,0.2)]'
-                            : 'bg-white/[0.02] border-white/10 text-neutral-300 hover:border-ngGold-500/50 hover:bg-white/[0.05]'}
+                            : 'bg-white/[0.02] border-white/10 text-neutral-300 hover:border-ngGold-500/50 hover:bg-white/[0.1]'}
                       `}
                         role="radio"
                         aria-checked={form.formData[step.field] === opt}
@@ -196,19 +191,19 @@ export default function App() {
               <ErrorMessage message={form.error} />
 
               {/* Navigation Actions */}
-              <div className="flex items-center gap-6">
+              <div className="flex flex-col-reverse sm:flex-row items-center justify-between sm:justify-start gap-4 sm:gap-6 w-full">
                 <button
                   onClick={form.handleNext}
                   disabled={form.isSubmitting}
-                  className="relative overflow-hidden group bg-gradient-to-r from-white to-neutral-100 text-black hover:from-ngGold-400 hover:to-ngGold-500 transition-all duration-500 px-10 py-5 rounded-xl font-bold text-lg flex items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_20px_rgba(255,255,255,0.15)] hover:shadow-[0_8px_40px_rgba(197,160,89,0.5)] hover:scale-[1.02] active:scale-[0.98]"
+                  className="w-full sm:w-auto relative overflow-hidden group bg-gradient-to-r from-white to-neutral-100 text-black hover:from-ngGold-400 hover:to-ngGold-500 transition-all duration-500 px-6 py-4 sm:px-10 sm:py-5 rounded-xl font-bold text-base sm:text-lg flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_20px_rgba(255,255,255,0.15)] hover:shadow-[0_8px_40px_rgba(197,160,89,0.5)] active:scale-[0.98]"
                   aria-label={form.currentStepIndex === FORM_STEPS.length - 1 ? 'Enviar aplicação' : 'Continuar para próximo passo'}
                 >
                   {/* Animated gradient overlay */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
                   </div>
 
-                  <span className="relative z-10 flex items-center gap-2 font-sans">
+                  <span className="relative z-10 flex items-center gap-2 font-sans tracking-wide">
                     {form.isSubmitting ? (
                       <>Processing <Loader2 className="w-5 h-5 animate-spin" /></>
                     ) : (
@@ -219,7 +214,7 @@ export default function App() {
 
                 {!form.isSubmitting && (
                   <span className="text-xs text-neutral-600 hidden md:flex items-center gap-1.5 font-mono uppercase tracking-wider">
-                    Press <span className="bg-white/10 px-2 py-1 rounded text-neutral-400 border border-white/10">Enter ↵</span>
+                    Press <span className="bg-white/10 px-2 py-1 rounded text-neutral-400 border border-white/10 shadow-sm">Enter ↵</span>
                   </span>
                 )}
               </div>

@@ -14,25 +14,25 @@ export const MeshBackground: React.FC = React.memo(() => {
       {/* Blob 1 - Gold/Yellow - Primary Light Source */}
       <motion.div
         animate={{
-          x: [0, 100, -50, 0],
-          y: [0, -50, 100, 0],
-          scale: [1, 1.2, 0.9, 1],
-          opacity: [0.3, 0.5, 0.3]
+          x: [0, 150, -50, 0],
+          y: [0, -100, 100, 0],
+          scale: [1, 1.3, 0.8, 1],
+          opacity: [0.35, 0.6, 0.35]
         }}
         transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="absolute top-[-20%] left-[-10%] w-[60vw] h-[60vw] bg-ngGold-500/15 rounded-full blur-[100px] mix-blend-screen"
+        className="absolute top-[-20%] left-[-10%] w-[65vw] h-[65vw] bg-gradient-to-br from-ngGold-400/20 to-ngGold-600/30 rounded-full blur-[120px] mix-blend-screen"
       />
 
-      {/* Blob 2 - Purple/Blue - Depth Shadow */}
+      {/* Blob 2 - Darker Depth Shadow focusing on modern ambient contrast */}
       <motion.div
         animate={{
-          x: [0, -70, 30, 0],
-          y: [0, 60, -40, 0],
-          scale: [1, 1.1, 0.95, 1],
-          opacity: [0.2, 0.4, 0.2]
+          x: [0, -100, 50, 0],
+          y: [0, 80, -60, 0],
+          scale: [1, 1.2, 0.9, 1],
+          opacity: [0.15, 0.3, 0.15]
         }}
         transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
-        className="absolute bottom-[-10%] right-[-10%] w-[70vw] h-[70vw] bg-[#0f0f1a] rounded-full blur-[120px] mix-blend-overlay"
+        className="absolute bottom-[-10%] right-[-10%] w-[80vw] h-[80vw] bg-[#0c0c16] rounded-full blur-[140px] mix-blend-overlay"
       />
 
       {/* Blob 3 - Accent Gold - Highlight */}

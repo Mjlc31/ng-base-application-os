@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* 
  * Estilos globais customizados para NG.BASE Application
  * Complementa o Tailwind CSS com estilos específicos do projeto

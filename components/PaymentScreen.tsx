@@ -28,17 +28,17 @@ export const PaymentScreen: React.FC = React.memo(() => {
                     <span>Aplicação Recebida com Sucesso</span>
                 </div>
 
-                <h1 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-sans font-bold mb-2 md:mb-4 tracking-tight leading-[1.1]">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans font-bold mb-2 md:mb-4 tracking-tight leading-[1.1]">
                     <span className="bg-gradient-to-br from-white via-white to-neutral-300 bg-clip-text text-transparent">
                         Seja bem-vindo ao
                     </span>
                     <br />
                     <span className="bg-gradient-to-r from-ngGold-400 via-ngGold-500 to-ngGold-600 bg-clip-text text-transparent">
-                        NG.BASE
+                        NG.RITMO
                     </span>
                 </h1>
 
-                <p className="text-neutral-400 text-sm md:text-xl max-w-2xl leading-relaxed font-sans font-light mt-1 md:mt-4 px-2">
+                <p className="text-neutral-400 text-sm md:text-lg max-w-2xl leading-relaxed font-sans font-light mt-2 md:mt-4 px-2">
                     Sua vaga está pré-garantida. Escolha a forma de pagamento abaixo para concluir sua inscrição e acessar o ambiente de elite.
                 </p>
             </motion.div>
@@ -48,7 +48,7 @@ export const PaymentScreen: React.FC = React.memo(() => {
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.4 }}
-                className="w-full max-w-xl mx-auto backdrop-blur-md bg-white/[0.02] border border-white/10 rounded-[1.5rem] p-4 md:p-8 shadow-2xl relative overflow-hidden"
+                className="w-full max-w-xl mx-auto backdrop-blur-xl bg-[#080808]/80 border border-white/10 rounded-[1.5rem] p-5 md:p-8 shadow-2xl relative overflow-hidden"
             >
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-ngGold-500/50 to-transparent"></div>
 
@@ -101,7 +101,7 @@ export const PaymentScreen: React.FC = React.memo(() => {
                                     href={paymentLink}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="group w-full flex items-center justify-center gap-2 py-3 md:py-4 px-4 md:px-6 bg-white text-black hover:bg-neutral-200 rounded-lg md:rounded-xl font-bold text-sm md:text-lg transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02]"
+                                    className="group w-full flex items-center justify-center gap-2 py-4 md:py-4 px-4 md:px-6 bg-white text-black hover:bg-neutral-200 rounded-xl font-bold text-base md:text-lg transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02]"
                                 >
                                     Pagar Agora com Cartão
                                     <ExternalLink className="w-4 h-4 md:w-5 md:h-5 opacity-70 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
