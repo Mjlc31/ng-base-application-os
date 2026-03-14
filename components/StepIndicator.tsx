@@ -21,71 +21,36 @@ export interface StepIndicatorProps {
  */
 export const StepIndicator: React.FC<StepIndicatorProps> = React.memo(({
     currentStep,
-    totalSteps,
-    stepLabels
+    totalSteps
 }) => {
     return (
-        <div className="flex items-center justify-center gap-2 md:gap-3">
+        <div className="flex items-center justify-center gap-2.5">
             {Array.from({ length: totalSteps }).map((_, index) => {
                 const isCompleted = index < currentStep;
                 const isCurrent = index === currentStep;
-                const isPending = index > currentStep;
 
                 return (
-                    <div key={index} className="flex items-center gap-2">
+                    <div key={index} className="flex items-center">
                         <motion.div
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ 
+                                opacity: 1, 
+                                scale: 1,
+                                backgroundColor: isCompleted || isCurrent ? 'var(--color-ng-gold-500)' : 'rgba(255,255,255,0.1)'
+                            }}
                             className={`
-                relative flex items-center justify-center rounded-full transition-all duration-300
-                ${isCurrent ? 'w-10 h-10' : 'w-8 h-8'}
-                ${isCompleted ? 'bg-ngGold-500' : isCurrent ? 'bg-ngGold-500/20 border-2 border-ngGold-500' : 'bg-white/5 border border-white/10'}
-              `}
-                            initial={{ scale: 0 }}
-                            animate={{ scale: 1 }}
-                            transition={{ delay: index * 0.05 }}
+                                h-1.5 rounded-full transition-all duration-500
+                                ${isCurrent ? 'w-8 shadow-[0_0_10px_#C5A059]' : 'w-1.5'}
+                            `}
                         >
-                            {isCompleted ? (
-                                <motion.svg
-                                    className="w-4 h-4 text-black"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                    strokeWidth={3}
-                                    initial={{ pathLength: 0 }}
-                                    animate={{ pathLength: 1 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                </motion.svg>
-                            ) : (
-                                <span className={`text-xs font-mono ${isCurrent ? 'text-ngGold-500' : 'text-neutral-600'}`}>
-                                    {index + 1}
-                                </span>
-                            )}
-
-                            {/* Pulse animation for current step */}
                             {isCurrent && (
                                 <motion.div
-                                    className="absolute inset-0 rounded-full bg-ngGold-500"
-                                    animate={{ scale: [1, 1.5], opacity: [0.5, 0] }}
-                                    transition={{ duration: 1.5, repeat: Infinity }}
+                                    className="absolute inset-0 bg-white/20 rounded-full"
+                                    animate={{ opacity: [0, 1, 0] }}
+                                    transition={{ duration: 2, repeat: Infinity }}
                                 />
                             )}
                         </motion.div>
-
-                        {/* Connector line */}
-                        {index < totalSteps - 1 && (
-                            <div className="w-8 md:w-12 h-px bg-white/10 relative overflow-hidden">
-                                {isCompleted && (
-                                    <motion.div
-                                        className="absolute inset-0 bg-ngGold-500"
-                                        initial={{ scaleX: 0 }}
-                                        animate={{ scaleX: 1 }}
-                                        transition={{ duration: 0.3, delay: index * 0.05 }}
-                                        style={{ transformOrigin: 'left' }}
-                                    />
-                                )}
-                            </div>
-                        )}
                     </div>
                 );
             })}

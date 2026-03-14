@@ -5,11 +5,11 @@
  * Refatorado com hooks customizados e componentes modulares
  */
 
-import React, { Suspense } from 'react';
+import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, ChevronRight, Loader2 } from 'lucide-react';
+import { ArrowRight, Loader2 } from 'lucide-react';
 import { formatPhoneNumber } from './utils/formatters';
-import { FORM_STEPS, ANIMATION_CONFIG } from './constants';
+import { FORM_STEPS } from './constants';
 import { useFormStep } from './hooks/useFormStep';
 import { BorderBeamInput } from './components/ui/BorderBeamInput';
 import { ProgressBar } from './components/ProgressBar';
@@ -26,8 +26,8 @@ import { MeshBackground } from './components/ui/MeshBackground';
  */
 export default function App() {
   const form = useFormStep(FORM_STEPS);
-
   const formRef = React.useRef(form);
+
   React.useEffect(() => {
     formRef.current = form;
   }, [form]);
@@ -35,18 +35,11 @@ export default function App() {
   const step = FORM_STEPS[form.currentStepIndex];
   const progress = ((form.currentStepIndex + 1) / FORM_STEPS.length) * 100;
 
-  /**
-   * Handler para mudanças de input com formatação
-   */
   const handleInputChange = (field: keyof ApplicationForm, value: string) => {
-    // Aplica formatação de telefone se necessário
     const finalValue = field === 'whatsapp' ? formatPhoneNumber(value) : value;
     form.handleInputChange(field, finalValue);
   };
 
-  /**
-   * Handler para tecla Enter
-   */
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
@@ -57,7 +50,7 @@ export default function App() {
   // Tela de sucesso
   if (form.isSuccess) {
     return (
-      <main className="min-h-[100dvh] relative font-sans text-white overflow-hidden bg-background">
+      <main className="min-h-[100dvh] relative font-sans text-white overflow-hidden bg-background flex flex-col items-center justify-center">
         <MeshBackground />
         <PaymentScreen />
       </main>
@@ -66,169 +59,150 @@ export default function App() {
 
   // Formulário principal
   return (
-    <main className="min-h-[100dvh] relative font-sans text-white overflow-hidden bg-background flex flex-col">
+    <main className="min-h-[100dvh] relative font-sans text-white overflow-hidden bg-background">
       <MeshBackground />
 
-      <FormHeader />
-      <ProgressBar progress={progress} />
+      {/* Main Layout Layer */}
+      <div className="relative z-10 min-h-[100dvh] flex items-center justify-center p-4 sm:p-6 md:p-10">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full max-w-2xl bg-surface/40 backdrop-blur-2xl border border-white/5 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col"
+        >
+          {/* Subtle Accent Glows */}
+          <div className="absolute top-0 right-0 w-64 h-64 bg-ng-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-ng-gold-400/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
-      {/* Main Form Area */}
-      <div className="flex-1 w-full overflow-y-auto overflow-x-hidden custom-scrollbar z-10 flex flex-col relative">
-        <div className="flex-1 flex flex-col justify-center items-center w-full max-w-3xl mx-auto px-4 sm:px-6 py-6 md:py-10 min-h-max">
-          <AnimatePresence mode="wait" custom={form.direction}>
-            <motion.div
-              key={step.id}
-              custom={form.direction}
-              initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, y: -20, filter: 'blur(10px)', transition: { duration: 0.2 } }}
-              transition={{ duration: ANIMATION_CONFIG.STEP_TRANSITION_DURATION, ease: "easeOut" }}
-              className="w-full"
-            >
-              {/* Question Counter */}
-              <div className="flex items-center gap-3 mb-6">
-                <span className="text-ngGold-500 text-sm font-mono border border-ngGold-500/30 px-3 py-1.5 rounded-md bg-ngGold-500/5 backdrop-blur-sm shadow-[0_0_15px_rgba(197,160,89,0.1)]">
-                  {form.currentStepIndex + 1} / {FORM_STEPS.length}
-                </span>
-                <div className="h-px flex-1 bg-gradient-to-r from-ngGold-500/20 to-transparent"></div>
-              </div>
+          {/* Form Content Padding Container */}
+          <div className="relative z-10 p-8 sm:p-12 flex flex-col flex-1">
+            <FormHeader />
 
-              {/* Question Text with Gradient */}
-              <h2 className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-sans font-bold mb-2 md:mb-4 leading-[1.1] tracking-tight">
-                <span className="bg-gradient-to-br from-white via-white to-neutral-300 bg-clip-text text-transparent">
-                  {step.question}
-                </span>
-              </h2>
-              {step.subtext && (
-                <p className="text-neutral-400 text-base sm:text-lg md:text-xl mb-6 md:mb-10 font-sans font-light leading-relaxed max-w-2xl">
-                  {step.subtext}
-                </p>
-              )}
+            <div className="mt-8 mb-8">
+              <ProgressBar progress={progress} />
+            </div>
 
-              {/* Input Field */}
-              <div className="mb-10 w-full">
-                {step.type === 'select' ? (
-                  <div
-                    className="flex flex-col gap-2 md:gap-3 w-full"
-                    role="radiogroup"
-                    aria-label={step.ariaLabel || step.question}
-                  >
-                    {step.options?.map((opt, idx) => (
-                      <motion.button
-                        key={opt}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: idx * 0.05 }}
-                        whileHover={{ scale: 1.02, x: 6 }}
-                        whileTap={{ scale: 0.97 }}
-                        onClick={() => {
-                          handleInputChange(step.field, opt);
-                          setTimeout(() => {
-                            if (formRef.current.currentStepIndex < FORM_STEPS.length - 1) {
-                              formRef.current.handleNext();
-                            }
-                          }, 350);
-                        }}
-                        className={`
-                        relative overflow-hidden text-left px-4 py-3.5 sm:px-5 sm:py-4 rounded-xl border text-sm sm:text-base md:text-lg 
-                        transition-all duration-300 w-full group backdrop-blur-sm
-                        ${form.formData[step.field] === opt
-                            ? 'border-ngGold-500 bg-ngGold-500/10 text-white shadow-[0_0_30px_rgba(197,160,89,0.2)]'
-                            : 'bg-white/[0.02] border-white/10 text-neutral-300 hover:border-ngGold-500/50 hover:bg-white/[0.1]'}
-                      `}
-                        role="radio"
-                        aria-checked={form.formData[step.field] === opt}
-                        aria-label={opt}
-                      >
-                        {/* Shimmer effect on hover */}
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/5 to-transparent"></div>
-                        </div>
-
-                        <div className="relative flex items-center justify-between">
-                          <span className="font-light font-sans">{opt}</span>
-                          <div className="flex items-center gap-2">
-                            {form.formData[step.field] === opt && (
-                              <motion.div
-                                initial={{ scale: 0, rotate: -180 }}
-                                animate={{ scale: 1, rotate: 0 }}
-                                className="w-5 h-5 rounded-full bg-ngGold-500 flex items-center justify-center"
-                              >
-                                <svg className="w-3 h-3 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
-                                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-                                </svg>
-                              </motion.div>
-                            )}
-                            <ChevronRight className={`w-5 h-5 transition-all duration-300 ${form.formData[step.field] === opt ? 'opacity-100 text-ngGold-500' : 'opacity-0 group-hover:opacity-50'}`} />
-                          </div>
-                        </div>
-                      </motion.button>
-                    ))}
+            {/* Step Rendering Area with Fixed Minimum Height */}
+            <div className="flex-1 flex flex-col justify-center">
+              <AnimatePresence mode="wait" custom={form.direction}>
+                <motion.div
+                  key={step.id}
+                  custom={form.direction}
+                  initial={{ opacity: 0, x: 20, filter: 'blur(5px)' }}
+                  animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+                  exit={{ opacity: 0, x: -20, filter: 'blur(5px)' }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
+                  className="w-full"
+                >
+                  {/* Step Title Layer */}
+                  <div className="mb-8">
+                    <span className="text-ng-gold-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-3 block">
+                      Passo {form.currentStepIndex + 1} de {FORM_STEPS.length}
+                    </span>
+                    <h2 className="text-2xl sm:text-3xl md:text-5xl font-serif font-bold text-white leading-[1.15] tracking-tight">
+                      {step.question}
+                    </h2>
+                    {step.subtext && (
+                      <p className="mt-4 text-white/40 text-sm sm:text-base font-light leading-relaxed max-w-lg">
+                        {step.subtext}
+                      </p>
+                    )}
                   </div>
-                ) : (
-                  <div onKeyDown={handleKeyDown}>
-                    <BorderBeamInput
-                      as={step.type === 'textarea' ? 'textarea' : 'input'}
-                      type={step.type}
-                      placeholder={step.placeholder}
-                      value={form.formData[step.field] as string}
-                      onChange={(e) => handleInputChange(step.field, e.target.value)}
-                      autoFocus
-                      className="font-light tracking-wide font-sans"
-                      ariaLabel={step.ariaLabel}
-                      isValid={!form.validateCurrentStep(step) && Boolean(form.formData[step.field])}
-                    />
-                    {step.type === 'textarea' && (
-                      <div className="text-right text-xs text-neutral-600 mt-2 font-mono">
-                        {(form.formData[step.field] as string).length} chars
+
+                  {/* Input Rendering with v4 Colors */}
+                  <div className="mb-10 w-full min-h-[140px]">
+                    {step.type === 'select' ? (
+                      <div className="grid grid-cols-1 gap-3 w-full">
+                        {step.options?.map((opt, idx) => (
+                          <motion.button
+                            key={opt}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: idx * 0.05 }}
+                            onClick={() => {
+                              handleInputChange(step.field, opt);
+                              setTimeout(() => {
+                                if (formRef.current.currentStepIndex < FORM_STEPS.length - 1) {
+                                  formRef.current.handleNext();
+                                }
+                              }, 400);
+                            }}
+                            className={`
+                              relative text-left px-5 py-4 rounded-2xl border transition-all duration-300 w-full flex items-center justify-between group
+                              ${form.formData[step.field] === opt
+                                ? 'border-ng-gold-500/50 bg-ng-gold-500/5 text-white'
+                                : 'bg-white/[0.02] border-white/5 text-white/40 hover:border-white/10 hover:bg-white/[0.04]'}
+                            `}
+                          >
+                            <span className="font-sans font-light tracking-wide">{opt}</span>
+                            <div className={`w-2 h-2 rounded-full transition-all duration-500 ${form.formData[step.field] === opt ? 'bg-ng-gold-500 shadow-[0_0_10px_#C5A059]' : 'bg-white/5 opacity-0 group-hover:opacity-100'}`} />
+                          </motion.button>
+                        ))}
+                      </div>
+                    ) : (
+                      <div onKeyDown={handleKeyDown}>
+                        <BorderBeamInput
+                          as={step.type === 'textarea' ? 'textarea' : 'input'}
+                          type={step.type}
+                          placeholder={step.placeholder}
+                          value={form.formData[step.field] as string}
+                          onChange={(e) => handleInputChange(step.field, e.target.value)}
+                          autoFocus
+                          className="font-light tracking-wide font-sans bg-transparent"
+                          ariaLabel={step.ariaLabel}
+                          isValid={!form.validateCurrentStep(step) && Boolean(form.formData[step.field])}
+                        />
                       </div>
                     )}
                   </div>
-                )}
-              </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
 
-              {/* Error Message */}
+            {/* Navigation Actions Layer */}
+            <div className="mt-6 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
               <ErrorMessage message={form.error} />
-
-              {/* Navigation Actions */}
-              <div className="flex flex-col-reverse sm:flex-row items-center justify-between sm:justify-start gap-4 sm:gap-6 w-full">
+              
+              <div className="flex items-center gap-4 w-full sm:w-auto ml-auto">
+                {form.currentStepIndex > 0 && (
+                  <button
+                    onClick={form.handleBack}
+                    disabled={form.isSubmitting}
+                    className="flex-1 sm:flex-none px-6 py-3.5 rounded-2xl text-white/30 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
+                  >
+                    Voltar
+                  </button>
+                )}
                 <button
                   onClick={form.handleNext}
                   disabled={form.isSubmitting}
-                  className="w-full sm:w-auto relative overflow-hidden group bg-gradient-to-r from-white to-neutral-100 text-black hover:from-ngGold-400 hover:to-ngGold-500 transition-all duration-500 px-6 py-4 sm:px-10 sm:py-5 rounded-xl font-bold text-base sm:text-lg flex justify-center items-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_4px_20px_rgba(255,255,255,0.15)] hover:shadow-[0_8px_40px_rgba(197,160,89,0.5)] active:scale-[0.98]"
-                  aria-label={form.currentStepIndex === FORM_STEPS.length - 1 ? 'Enviar aplicação' : 'Continuar para próximo passo'}
+                  className="flex-1 sm:flex-none px-10 py-4 rounded-2xl bg-white text-black font-bold hover:bg-ng-gold-500 transition-all shadow-[0_10px_30px_rgba(255,255,255,0.05)] hover:shadow-ng-gold-500/20 active:scale-[0.98] disabled:opacity-50 min-w-[160px]"
                 >
-                  {/* Animated gradient overlay */}
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-                  </div>
-
-                  <span className="relative z-10 flex items-center gap-2 font-sans tracking-wide">
+                  <span className="relative z-10 flex items-center justify-center gap-2">
                     {form.isSubmitting ? (
-                      <>Processing <Loader2 className="w-5 h-5 animate-spin" /></>
+                      <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
-                      <>{form.currentStepIndex === FORM_STEPS.length - 1 ? 'Enviar Aplicação' : 'Continuar'} <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" /></>
+                      <>
+                        {form.currentStepIndex === FORM_STEPS.length - 1 ? 'Finalizar' : 'Avançar'}
+                        <ArrowRight className="w-4 h-4 opacity-50" />
+                      </>
                     )}
                   </span>
                 </button>
-
-                {!form.isSubmitting && (
-                  <span className="text-xs text-neutral-600 hidden md:flex items-center gap-1.5 font-mono uppercase tracking-wider">
-                    Press <span className="bg-white/10 px-2 py-1 rounded text-neutral-400 border border-white/10 shadow-sm">Enter ↵</span>
-                  </span>
-                )}
               </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
 
-      {/* Footer decorative */}
-      <div className="fixed bottom-6 right-6 z-20 hidden md:block pointer-events-none">
-        <div className="w-12 h-12 border border-white/5 rounded-full flex items-center justify-center animate-spin-slow">
-          <div className="w-1.5 h-1.5 bg-ngGold-500 rounded-full shadow-[0_0_10px_#C5A059]"></div>
+      {/* Decorative Branding */}
+      <div className="fixed bottom-10 right-10 z-20 hidden lg:block select-none pointer-events-none opacity-20 hover:opacity-100 transition-opacity">
+        <div className="flex items-center gap-4 rotate-90 origin-bottom-right translate-y-full">
+          <span className="text-[10px] tracking-[0.6em] font-serif text-ng-gold-500">NG.RITMO</span>
+          <div className="w-20 h-[1px] bg-ng-gold-500/20" />
+          <span className="text-[9px] tracking-[0.2em] font-sans text-white/20 font-bold uppercase">Exclusive Protocol</span>
         </div>
       </div>
-    </main >
+    </main>
   );
 }

@@ -1,148 +1,58 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* 
- * Estilos globais customizados para NG.BASE Application
- * Complementa o Tailwind CSS com estilos específicos do projeto
- */
+@theme {
+  --color-background: #050505;
+  --color-surface: #0A0A0A;
+  --color-ng-gold-400: #EAC54F;
+  --color-ng-gold-500: #C5A059;
+  --color-ng-gold-600: #997B36;
+  --color-ng-silver: #C0C0C0;
 
-/* Scrollbar customizada para áreas com overflow */
-.custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
+  /* Aliases para compatibilidade legada se necessário */
+  --color-ngGold-400: #EAC54F;
+  --color-ngGold-500: #C5A059;
+  --color-ngGold-600: #997B36;
+
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Bodoni Moda", serif;
+
+  --animate-spin-slow: spin 8s linear infinite;
+  --animate-shimmer: shimmer 2s infinite;
 }
 
-.custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-background text-white antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
 }
 
-/* Previne o scroll da página ao chegar no fim da lista */
-.custom-scrollbar {
-    overscroll-behavior-y: contain;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(197, 160, 89, 0.3);
-    border-radius: 3px;
-    transition: background 0.3s ease;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(197, 160, 89, 0.5);
-}
-
-/* Animação de shimmer para efeitos de brilho */
 @keyframes shimmer {
-    0% {
-        transform: translateX(-100%);
-    }
-
-    100% {
-        transform: translateX(100%);
-    }
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
 }
 
-.animate-shimmer {
-    animation: shimmer 2s infinite;
+/* Glassmorphism utility */
+.glass-panel {
+  @apply bg-surface/40 backdrop-blur-2xl border border-white/5;
 }
 
-
-/* Animação de pulse suave para elementos de destaque */
-@keyframes pulse-soft {
-
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.7;
-    }
+/* Luxury scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
 }
-
-/* Transições suaves para todos os elementos interativos */
-button,
-a,
-input,
-textarea,
-select {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+::-webkit-scrollbar-track {
+  background: transparent;
 }
-
-/* Otimização de performance para containers principais */
-main {
-    contain: layout style;
+::-webkit-scrollbar-thumb {
+  background: rgba(197, 160, 89, 0.2);
+  border-radius: 10px;
 }
-
-/* Focus visible para acessibilidade */
-*:focus-visible {
-    outline: 2px solid #C5A059;
-    outline-offset: 2px;
-}
-
-/* Remove outline padrão mas mantém para navegação por teclado */
-*:focus:not(:focus-visible) {
-    outline: none;
-}
-
-/* Animação de entrada para elementos */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Prevenção de FOUC (Flash of Unstyled Content) */
-.no-js {
-    opacity: 0;
-}
-
-html.js .no-js {
-    opacity: 1;
-    animation: fadeInUp 0.5s ease-out;
-}
-
-/* Otimização de renderização para animações */
-.will-change-transform {
-    will-change: transform;
-}
-
-.will-change-opacity {
-    will-change: opacity;
-}
-
-/* Suporte a dark mode (caso necessário no futuro) */
-@media (prefers-color-scheme: dark) {
-    /* Já está em dark mode por padrão */
-}
-
-/* Suporte a reduced motion para acessibilidade */
-@media (prefers-reduced-motion: reduce) {
-
-    *,
-    *::before,
-    *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* Print styles */
-@media print {
-    body {
-        background: white;
-        color: black;
-    }
-
-    .no-print {
-        display: none !important;
-    }
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(197, 160, 89, 0.4);
 }

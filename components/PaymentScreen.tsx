@@ -1,162 +1,151 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { CreditCard, QrCode, ExternalLink, Sparkles, CheckCircle2, ArrowRight } from 'lucide-react';
+import { CreditCard, QrCode, Sparkles, ArrowRight, Loader2 } from 'lucide-react';
 import { Confetti } from './ui/Confetti';
 
+/**
+ * Tela de Pagamento NG.RITMO
+ * Visual Premium Glassmorphism com integração de PIX e Cartão
+ */
 export const PaymentScreen: React.FC = React.memo(() => {
     const [paymentMethod, setPaymentMethod] = useState<'pix' | 'credit'>('credit');
-
+    const [isProcessing, setIsProcessing] = useState(false);
+    
     const paymentLink = "https://link.infinitepay.io/artur-galdino-de/VC1DLTAtUg-SMpaDlkKL-297,00";
 
+    const handlePaymentClick = () => {
+      setIsProcessing(true);
+      setTimeout(() => {
+        window.open(paymentLink, '_blank');
+        setIsProcessing(false);
+      }, 800);
+    };
+
     return (
-        <div
-            className="flex flex-col items-center justify-center min-h-[100dvh] p-4 text-center z-10 relative overflow-hidden"
-            role="main"
-            aria-label="Pagamento da Aplicação"
-        >
+        <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 relative z-10 overflow-hidden">
             <Confetti />
-
-            {/* Hero Section */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                className="max-w-3xl w-full flex flex-col items-center mt-2 md:mt-0 mb-4 md:mb-10 px-1"
-            >
-                <div className="inline-flex items-center gap-1.5 px-3 md:px-4 py-1.5 rounded-full bg-ngGold-500/10 border border-ngGold-500/20 text-ngGold-400 text-xs md:text-sm font-medium mb-3 md:mb-6">
-                    <Sparkles className="w-4 h-4" />
-                    <span>Aplicação Recebida com Sucesso</span>
-                </div>
-
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-sans font-bold mb-2 md:mb-4 tracking-tight leading-[1.1]">
-                    <span className="bg-gradient-to-br from-white via-white to-neutral-300 bg-clip-text text-transparent">
-                        Seja bem-vindo ao
-                    </span>
-                    <br />
-                    <span className="bg-gradient-to-r from-ngGold-400 via-ngGold-500 to-ngGold-600 bg-clip-text text-transparent">
-                        NG.RITMO
-                    </span>
-                </h1>
-
-                <p className="text-neutral-400 text-sm md:text-lg max-w-2xl leading-relaxed font-sans font-light mt-2 md:mt-4 px-2">
-                    Sua vaga está pré-garantida. Escolha a forma de pagamento abaixo para concluir sua inscrição e acessar o ambiente de elite.
-                </p>
-            </motion.div>
-
-            {/* Payment Options */}
+            
             <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4 }}
-                className="w-full max-w-xl mx-auto backdrop-blur-xl bg-[#080808]/80 border border-white/10 rounded-[1.5rem] p-5 md:p-8 shadow-2xl relative overflow-hidden"
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="w-full max-w-xl bg-surface/40 backdrop-blur-2xl border border-white/5 rounded-[40px] shadow-2xl relative overflow-hidden p-8 sm:p-12"
             >
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-ngGold-500/50 to-transparent"></div>
+                {/* Accent Background Glows */}
+                <div className="absolute top-0 right-0 w-64 h-64 bg-ng-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-ng-gold-400/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
-                {/* Toggle Payment Methods */}
-                <div className="flex bg-black/40 p-1 rounded-xl mb-4 md:mb-8 border border-white/5">
+                {/* Brand Header Section */}
+                <div className="flex flex-col items-center mb-10 text-center relative z-10">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/5 mb-6">
+                      <Sparkles className="w-3 h-3 text-ng-gold-500" />
+                      <span className="text-[10px] uppercase tracking-[0.2em] text-white/40 font-bold font-sans">Acesso Exclusivo</span>
+                    </div>
+                    
+                    <h1 className="text-3xl sm:text-4xl font-serif font-bold text-white leading-tight mb-4 tracking-tight">
+                      Boas-vindas ao <span className="text-ng-gold-500">NG.RITMO</span>
+                    </h1>
+                    
+                    <p className="text-white/40 text-sm font-light max-w-sm font-sans">
+                      Sua vaga está pré-garantida. Escolha o método de ativação abaixo para acessar o ambiente de elite.
+                    </p>
+                </div>
+
+                {/* Method Switcher */}
+                <div className="flex bg-black/40 p-1.5 rounded-[22px] mb-8 border border-white/5 relative z-10">
                     <button
                         onClick={() => setPaymentMethod('credit')}
-                        className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 md:px-4 rounded-lg text-xs sm:text-sm md:text-base font-medium transition-all duration-300 ${paymentMethod === 'credit'
-                            ? 'bg-gradient-to-r from-ngGold-600 to-ngGold-500 text-black shadow-lg translate-y-0'
-                            : 'text-neutral-400 hover:text-white hover:bg-white/5'
+                        disabled={isProcessing}
+                        className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-[18px] text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-500 ${paymentMethod === 'credit'
+                            ? 'bg-white text-black shadow-xl scale-[1.02]'
+                            : 'text-white/30 hover:text-white/60 hover:bg-white/[0.02]'
                             }`}
                     >
-                        <CreditCard className="w-4 h-4 md:w-5 md:h-5" />
-                        <span className="truncate">Cartão</span>
+                        <CreditCard className="w-4 h-4" />
+                        Cartão
                     </button>
                     <button
                         onClick={() => setPaymentMethod('pix')}
-                        className={`flex-1 flex items-center justify-center gap-1.5 py-2.5 px-2 md:px-4 rounded-lg text-xs sm:text-sm md:text-base font-medium transition-all duration-300 ${paymentMethod === 'pix'
-                            ? 'bg-gradient-to-r from-ngGold-600 to-ngGold-500 text-black shadow-lg translate-y-0'
-                            : 'text-neutral-400 hover:text-white hover:bg-white/5'
+                        disabled={isProcessing}
+                        className={`flex-1 flex items-center justify-center gap-2 py-3.5 rounded-[18px] text-[10px] font-bold uppercase tracking-[0.2em] transition-all duration-500 ${paymentMethod === 'pix'
+                            ? 'bg-white text-black shadow-xl scale-[1.02]'
+                            : 'text-white/30 hover:text-white/60 hover:bg-white/[0.02]'
                             }`}
                     >
-                        <QrCode className="w-4 h-4 md:w-5 md:h-5" />
-                        <span className="truncate">PIX</span>
+                        <QrCode className="w-4 h-4" />
+                        PIX
                     </button>
                 </div>
 
-                {/* Content Area */}
-                <div className="min-h-[200px] md:min-h-[300px] flex flex-col justify-center">
+                {/* Main Action Area */}
+                <div className="min-h-[300px] flex flex-col justify-center relative z-10">
                     <AnimatePresence mode="wait">
                         {paymentMethod === 'credit' ? (
                             <motion.div
                                 key="credit"
-                                initial={{ opacity: 0, x: -20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: 20 }}
-                                transition={{ duration: 0.3 }}
-                                className="flex flex-col items-center flex-1 w-full"
+                                initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
+                                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                                exit={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
+                                transition={{ duration: 0.4 }}
+                                className="flex flex-col items-center"
                             >
-                                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-neutral-800 to-neutral-900 border border-white/10 flex items-center justify-center mb-4 md:mb-6 shadow-inner">
-                                    <CreditCard className="w-6 h-6 md:w-10 md:h-10 text-ngGold-500" />
+                                <div className="text-center mb-10">
+                                  <span className="text-[10px] text-white/20 uppercase tracking-[0.4em] font-sans block mb-3 font-bold">Taxa de Adesão</span>
+                                  <div className="text-6xl font-serif font-bold text-white tracking-tighter flex items-start justify-center">
+                                    <span className="text-2xl text-ng-gold-500 mt-2 mr-1">R$</span>
+                                    <span>297</span>
+                                  </div>
                                 </div>
 
-                                <h3 className="text-lg md:text-2xl font-bold font-sans mb-1 md:mb-3">Pagamento via Cartão</h3>
-                                <p className="text-neutral-400 font-light text-xs md:text-base mb-5 md:mb-8 max-w-[280px]">
-                                    Parcele sua inscrição ou pague à vista com toda a segurança.
-                                </p>
-
-                                <a
-                                    href={paymentLink}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="group w-full flex items-center justify-center gap-2 py-4 md:py-4 px-4 md:px-6 bg-white text-black hover:bg-neutral-200 rounded-xl font-bold text-base md:text-lg transition-all shadow-[0_0_15px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)] hover:scale-[1.02]"
+                                <button
+                                    onClick={handlePaymentClick}
+                                    disabled={isProcessing}
+                                    className="w-full flex items-center justify-center gap-3 py-5 px-8 bg-white text-black rounded-2xl font-bold text-lg hover:bg-ng-gold-500 transition-all shadow-[0_15px_40px_rgba(255,255,255,0.05)] hover:shadow-ng-gold-500/30 active:scale-[0.98] disabled:opacity-50"
                                 >
-                                    Pagar Agora com Cartão
-                                    <ExternalLink className="w-4 h-4 md:w-5 md:h-5 opacity-70 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                                </a>
-                                <div className="mt-4 md:mt-6 flex items-center gap-1.5 text-xs md:text-sm text-neutral-500">
-                                    <CheckCircle2 className="w-3 h-3 md:w-4 md:h-4 text-green-500/70" />
-                                    <span>Ambiente Seguro InfinitePay</span>
+                                    {isProcessing ? (
+                                      <Loader2 className="w-6 h-6 animate-spin text-black" />
+                                    ) : (
+                                      <>
+                                        Pagar com Cartão
+                                        <ArrowRight className="w-5 h-5 opacity-40 group-hover:translate-x-1 transition-transform" />
+                                      </>
+                                    )}
+                                </button>
+                                
+                                <div className="mt-8 flex items-center gap-2 text-[9px] text-white/20 uppercase tracking-[0.3em] font-bold">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]" />
+                                    InfinitePay Secure Layer Active
                                 </div>
                             </motion.div>
                         ) : (
                             <motion.div
                                 key="pix"
-                                initial={{ opacity: 0, x: 20 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: -20 }}
-                                transition={{ duration: 0.3 }}
-                                className="flex flex-col items-center flex-1 w-full"
+                                initial={{ opacity: 0, y: 10, filter: 'blur(10px)' }}
+                                animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+                                exit={{ opacity: 0, y: -10, filter: 'blur(10px)' }}
+                                transition={{ duration: 0.4 }}
+                                className="flex flex-col items-center"
                             >
-                                <h3 className="text-lg md:text-2xl font-bold font-sans mb-1 md:mb-3 text-white">Pagamento via PIX</h3>
-                                <p className="text-neutral-400 text-xs md:text-base font-light mb-3 md:mb-6 leading-tight">
-                                    Escaneie o QR Code abaixo com o aplicativo do seu banco:
-                                </p>
-
-                                <div className="bg-white p-2 md:p-4 rounded-[1rem] md:rounded-[1.5rem] mb-3 md:mb-6 shadow-[0_0_40px_rgba(197,160,89,0.15)] relative group max-w-[160px] md:max-w-[240px] w-full mx-auto aspect-square flex items-center justify-center">
-                                    <div className="absolute inset-0 bg-gradient-to-r from-ngGold-400 to-ngGold-600 rounded-[1rem] md:rounded-3xl opacity-0 group-hover:opacity-20 transition-opacity blur-xl -z-10"></div>
-                                    {/* The QR Code Image */}
+                                <div className="bg-white p-5 rounded-[40px] mb-8 shadow-[0_0_60px_rgba(197,160,89,0.1)] relative group">
                                     <img
                                         src="/pix-qrcode.png"
-                                        alt="QR Code PIX para Pagamento"
-                                        className="w-full h-full object-cover rounded-xl border border-neutral-100 mix-blend-multiply"
+                                        alt="PIX QR Code"
+                                        className="w-44 h-44 object-contain mix-blend-multiply"
                                         onError={(e) => {
-                                            (e.target as HTMLImageElement).style.display = 'none';
-                                            // Fallback visual if image fails to load
-                                            e.currentTarget.parentElement!.innerHTML = `
-                        <div class="w-full h-full bg-neutral-100 rounded-xl flex flex-col items-center justify-center border-2 border-dashed border-neutral-300 p-2 md:p-4">
-                           <p class="text-neutral-500 text-[10px] md:text-sm font-medium text-center leading-tight">QR Code não encontrado.</p>
-                        </div>
-                      `;
+                                            (e.target as HTMLImageElement).src = "https://placeholder.com/200?text=PIX+QR+CODE";
                                         }}
                                     />
+                                    <div className="absolute inset-0 border-2 border-ng-gold-500/10 rounded-[40px] pointer-events-none" />
                                 </div>
 
-                                <div className="w-full flex flex-col gap-2 md:gap-3">
-                                    <div className="bg-black/30 w-full rounded-lg md:rounded-xl p-3 md:p-5 border border-white/5 flex flex-row items-center justify-between gap-1 sm:gap-4 text-left">
-                                        <span className="text-xs md:text-base text-neutral-400 font-medium">Total:</span>
-                                        <span className="text-lg md:text-3xl font-bold bg-gradient-to-r from-ngGold-400 to-ngGold-500 bg-clip-text text-transparent tracking-tight">
-                                            R$ 297,00
-                                        </span>
-                                    </div>
+                                <div className="text-center w-full mb-8 py-5 px-8 bg-white/[0.03] rounded-3xl border border-white/5">
+                                    <span className="text-[10px] text-white/20 uppercase tracking-[0.4em] block mb-2 font-bold font-sans">Total Investimento</span>
+                                    <div className="text-4xl font-serif font-bold text-white tracking-tight">R$ 297,00</div>
                                 </div>
 
-                                <div className="mt-4 md:mt-8 flex items-center justify-center flex-wrap gap-1 md:gap-2 text-[10px] md:text-sm text-neutral-400">
-                                    <span className="flex items-center gap-1 md:gap-1.5"><ArrowRight className="w-3 h-3 md:w-4 md:h-4 text-ngGold-500" /> Abra o app</span>
-                                    <span className="hidden sm:inline">•</span>
-                                    <span>Pagar com QR Code</span>
+                                <div className="flex items-center gap-3 text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold font-sans">
+                                    <QrCode className="w-4 h-4 text-ng-gold-500" />
+                                    Escaneie e aguarde ativação
                                 </div>
                             </motion.div>
                         )}

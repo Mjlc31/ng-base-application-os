@@ -10,95 +10,59 @@ import { EXTERNAL_LINKS } from '../constants';
  */
 export const SuccessScreen: React.FC = React.memo(() => {
   return (
-    <div
-      className="flex flex-col items-center justify-center min-h-[100dvh] p-6 text-center z-10 relative"
-      role="main"
-      aria-label="Aplicação enviada com sucesso"
-    >
+    <div className="min-h-screen w-full flex items-center justify-center p-4 sm:p-6 relative z-10 overflow-hidden">
       <Confetti />
 
-      {/* Animated success icon with pulse */}
       <motion.div
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-        className="relative w-20 h-20 sm:w-24 sm:h-24 bg-gradient-to-br from-ngGold-400 to-ngGold-600 rounded-full flex items-center justify-center mb-6 sm:mb-8 shadow-[0_0_50px_rgba(212,175,55,0.6)]"
-        role="img"
-        aria-label="Ícone de sucesso"
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-2xl bg-surface/40 backdrop-blur-2xl border border-white/5 rounded-[40px] shadow-2xl relative overflow-hidden p-8 sm:p-12 text-center"
       >
-        <Check className="w-12 h-12 text-black" strokeWidth={3} />
+        {/* Animated Success Icon */}
+        <div className="flex justify-center mb-10">
+          <motion.div
+            initial={{ scale: 0, rotate: -45 }}
+            animate={{ scale: 1, rotate: 0 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 15 }}
+            className="w-20 h-20 bg-gradient-to-br from-ng-gold-400 to-ng-gold-600 rounded-full flex items-center justify-center relative"
+          >
+            <Check className="w-10 h-10 text-black" strokeWidth={3} />
+            <motion.div
+              className="absolute inset-0 rounded-full border border-ng-gold-500"
+              animate={{ scale: [1, 1.8], opacity: [0.5, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+            />
+          </motion.div>
+        </div>
 
-        {/* Pulse rings */}
-        <motion.div
-          className="absolute inset-0 rounded-full border-2 border-ngGold-500"
-          animate={{ scale: [1, 1.5, 1.5], opacity: [1, 0, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute inset-0 rounded-full border-2 border-ngGold-500"
-          animate={{ scale: [1, 1.8, 1.8], opacity: [1, 0, 0] }}
-          transition={{ duration: 2, repeat: Infinity, delay: 0.5 }}
-        />
-      </motion.div>
+        <h1 className="text-4xl sm:text-5xl font-serif font-bold text-white mb-6 leading-tight">
+          Aplicação <span className="text-ng-gold-500">Recebida.</span>
+        </h1>
 
-      {/* Success message with gradient */}
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3 }}
-        className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold mb-4 sm:mb-6 tracking-tight leading-[1.1]"
-      >
-        <span className="bg-gradient-to-br from-white via-white to-neutral-300 bg-clip-text text-transparent">
-          Aplicação Recebida.
-        </span>
-        <br />
-        <span className="bg-gradient-to-r from-ngGold-400 via-ngGold-500 to-ngGold-600 bg-clip-text text-transparent flex flex-wrap items-center justify-center gap-2 mt-2">
-          Você está no radar. <Sparkles className="w-6 h-6 sm:w-8 sm:h-8 text-ngGold-500 animate-pulse" aria-hidden="true" />
-        </span>
-      </motion.h1>
+        <p className="text-white/40 text-lg sm:text-xl font-light leading-relaxed mb-12 max-w-md mx-auto">
+          Nossa curadoria analisará seu perfil. O <span className="text-white font-medium">NG.RITMO</span> é um ambiente de elite e entraremos em contato via WhatsApp em breve.
+        </p>
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.5 }}
-        className="text-neutral-400 text-lg sm:text-xl md:text-2xl max-w-2xl px-2 mb-10 sm:mb-14 leading-relaxed font-sans font-light"
-      >
-        Nossa curadoria analisará seu perfil. O <span className="text-ngGold-500 font-medium">NG.RITMO</span> é um ambiente vibrante de aceleração e entraremos em contato via WhatsApp em breve.
-      </motion.p>
+        {/* CTA Section */}
+        <div className="flex flex-col items-center gap-6">
+          <motion.a
+            href={EXTERNAL_LINKS.INSTAGRAM}
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="w-full sm:w-auto px-10 py-5 bg-white text-black rounded-2xl font-bold text-lg flex items-center justify-center gap-3 shadow-[0_10px_30px_rgba(255,255,255,0.1)] transition-all"
+          >
+            <Instagram className="w-5 h-5 text-black" />
+            Acompanhe a NG.HUB
+            <ExternalLink className="w-4 h-4 opacity-50" />
+          </motion.a>
 
-      {/* CTA Button with enhanced effects */}
-      <motion.a
-        href={EXTERNAL_LINKS.INSTAGRAM}
-        target="_blank"
-        rel="noopener noreferrer"
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.7 }}
-        whileHover={{ scale: 1.05, y: -2 }}
-        whileTap={{ scale: 0.95 }}
-        className="w-full sm:w-auto overflow-hidden group relative inline-flex justify-center items-center gap-3 px-6 py-4 sm:px-10 sm:py-5 bg-gradient-to-r from-ngGold-500 to-ngGold-600 rounded-xl text-black hover:shadow-[0_10px_50px_rgba(197,160,89,0.5)] transition-all duration-300 cursor-pointer font-sans font-bold text-base sm:text-lg"
-        aria-label="Acompanhe a NG.HUB no Instagram (abre em nova aba)"
-      >
-        {/* Shimmer effect */}
-        <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-
-        <span className="relative z-10 flex items-center gap-2">
-          <Instagram className="w-6 h-6" aria-hidden="true" />
-          Acompanhe a NG.HUB
-          <ExternalLink className="w-4 h-4 opacity-70" aria-hidden="true" />
-        </span>
-      </motion.a>
-
-      {/* Decorative element */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1 }}
-        className="mt-12 text-neutral-600 text-sm font-mono"
-      >
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-ngGold-500 animate-pulse"></div>
-          <span>Aguarde nosso contato</span>
+          <div className="flex items-center gap-3 py-3 px-5 rounded-full bg-white/[0.03] border border-white/5">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[10px] uppercase tracking-[0.3em] text-white/40 font-bold">Aguarde nosso contato</span>
+          </div>
         </div>
       </motion.div>
     </div>

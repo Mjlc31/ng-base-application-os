@@ -24,27 +24,18 @@ export interface ProgressBarProps {
 export const ProgressBar: React.FC<ProgressBarProps> = React.memo(({ progress, className = '' }) => {
     return (
         <div
-            className={`fixed top-0 left-0 h-1 bg-ngGold-500/10 w-full z-30 ${className}`}
+            className={`h-0.5 bg-white/5 w-full rounded-full overflow-hidden relative ${className}`}
             role="progressbar"
             aria-valuenow={progress}
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-label="Progresso do formulário"
         >
             <motion.div
-                className="relative h-full bg-gradient-to-r from-ngGold-600 via-ngGold-500 to-ngGold-400 shadow-[0_0_20px_#C5A059]"
+                className="absolute left-0 top-0 h-full bg-gradient-to-r from-ng-gold-600 via-ng-gold-500 to-ng-gold-400 shadow-[0_0_15px_rgba(197,160,89,0.5)]"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
-                transition={{
-                    duration: 0.8,
-                    ease: [0.22, 1, 0.36, 1]
-                }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
             >
-                {/* Glow effect at tip */}
-                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 bg-ngGold-400 rounded-full blur-[6px] shadow-[0_0_10px_#fff]" />
-
-                {/* Shimmer effect */}
-                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
+                {/* Shimmer overlay */}
+                <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full animate-[shimmer_2s_infinite]"></div>
             </motion.div>
         </div>
     );

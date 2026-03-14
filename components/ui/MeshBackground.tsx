@@ -8,19 +8,19 @@ import { motion } from 'framer-motion';
 export const MeshBackground: React.FC = React.memo(() => {
   return (
     <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none" aria-hidden="true">
-      {/* Dark overlay to ensure contrast */}
-      <div className="absolute inset-0 bg-[#050505] z-10 opacity-90" />
+      {/* Subtle dark overlay with better transparency for mesh visibility */}
+      <div className="absolute inset-0 bg-[#050505] z-10 opacity-70" />
 
       {/* Blob 1 - Gold/Yellow - Primary Light Source */}
       <motion.div
         animate={{
-          x: [0, 150, -50, 0],
-          y: [0, -100, 100, 0],
-          scale: [1, 1.3, 0.8, 1],
-          opacity: [0.35, 0.6, 0.35]
+          x: [0, 100, -80, 0],
+          y: [0, -50, 50, 0],
+          scale: [1, 1.2, 0.9, 1],
+          opacity: [0.4, 0.7, 0.4]
         }}
-        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        className="absolute top-[-20%] left-[-10%] w-[65vw] h-[65vw] bg-gradient-to-br from-ngGold-400/20 to-ngGold-600/30 rounded-full blur-[120px] mix-blend-screen"
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute top-[-10%] left-[-10%] w-[80vw] h-[80vw] bg-gradient-to-br from-ng-gold-400/30 to-ng-gold-600/40 rounded-full blur-[100px] mix-blend-screen"
       />
 
       {/* Blob 2 - Darker Depth Shadow focusing on modern ambient contrast */}
