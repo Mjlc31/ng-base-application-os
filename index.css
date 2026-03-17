@@ -1,23 +1,14 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-@theme {
-  --color-background: #050505;
-  --color-surface: #0A0A0A;
-  --color-ng-gold-400: #EAC54F;
-  --color-ng-gold-500: #C5A059;
-  --color-ng-gold-600: #997B36;
-  --color-ng-silver: #C0C0C0;
-
-  /* Aliases para compatibilidade legada se necessário */
-  --color-ngGold-400: #EAC54F;
-  --color-ngGold-500: #C5A059;
-  --color-ngGold-600: #997B36;
-
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "Bodoni Moda", serif;
-
-  --animate-spin-slow: spin 8s linear infinite;
-  --animate-shimmer: shimmer 2s infinite;
+:root {
+  --background: 5 5 5;
+  --surface: 10 10 10;
+  --ng-gold-400: #EAC54F;
+  --ng-gold-500: #C5A059;
+  --ng-gold-600: #997B36;
+  --ng-silver: #C0C0C0;
 }
 
 @layer base {

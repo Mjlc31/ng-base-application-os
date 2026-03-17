@@ -63,19 +63,19 @@ export default function App() {
       <MeshBackground />
 
       {/* Main Layout Layer */}
-      <div className="relative z-10 min-h-[100dvh] flex items-center justify-center p-4 sm:p-6 md:p-10">
+      <div className="relative z-10 min-h-[100dvh] flex items-center justify-center p-3 sm:p-6 md:p-10">
         <motion.div
           initial={{ opacity: 0, scale: 0.98 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-2xl bg-surface/40 backdrop-blur-2xl border border-white/5 rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col"
+          className="w-full max-w-2xl bg-surface/40 backdrop-blur-2xl border border-white/5 rounded-[32px] sm:rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col"
         >
           {/* Subtle Accent Glows */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-ng-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-ng-gold-400/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
           {/* Form Content Padding Container */}
-          <div className="relative z-10 p-8 sm:p-12 flex flex-col flex-1">
+          <div className="relative z-10 p-5 sm:p-12 flex flex-col flex-1">
             <FormHeader />
 
             <div className="mt-8 mb-8">
@@ -94,16 +94,15 @@ export default function App() {
                   transition={{ duration: 0.4, ease: "easeInOut" }}
                   className="w-full"
                 >
-                  {/* Step Title Layer */}
-                  <div className="mb-8">
+                  <div className="mb-6 sm:mb-8">
                     <span className="text-ng-gold-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-3 block">
                       Passo {form.currentStepIndex + 1} de {FORM_STEPS.length}
                     </span>
-                    <h2 className="text-2xl sm:text-3xl md:text-5xl font-serif font-bold text-white leading-[1.15] tracking-tight">
+                    <h2 className="text-xl sm:text-3xl md:text-5xl font-serif font-bold text-white leading-[1.15] tracking-tight">
                       {step.question}
                     </h2>
                     {step.subtext && (
-                      <p className="mt-4 text-white/40 text-sm sm:text-base font-light leading-relaxed max-w-lg">
+                      <p className="mt-3 sm:mt-4 text-white/40 text-[13px] sm:text-base font-light leading-relaxed max-w-lg">
                         {step.subtext}
                       </p>
                     )}
@@ -160,15 +159,15 @@ export default function App() {
             </div>
 
             {/* Navigation Actions Layer */}
-            <div className="mt-6 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div className="mt-4 sm:mt-6 pt-6 sm:pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6">
               <ErrorMessage message={form.error} />
               
-              <div className="flex items-center gap-4 w-full sm:w-auto ml-auto">
+              <div className="flex items-center gap-3 sm:gap-4 w-full sm:w-auto ml-auto">
                 {form.currentStepIndex > 0 && (
                   <button
                     onClick={form.handleBack}
                     disabled={form.isSubmitting}
-                    className="flex-1 sm:flex-none px-6 py-3.5 rounded-2xl text-white/30 hover:text-white transition-all text-xs font-bold uppercase tracking-widest"
+                    className="flex-1 sm:flex-none px-4 sm:px-6 py-3 sm:py-3.5 rounded-xl sm:rounded-2xl text-white/30 hover:text-white transition-all text-[10px] sm:text-xs font-bold uppercase tracking-widest"
                   >
                     Voltar
                   </button>
@@ -176,9 +175,9 @@ export default function App() {
                 <button
                   onClick={form.handleNext}
                   disabled={form.isSubmitting}
-                  className="flex-1 sm:flex-none px-10 py-4 rounded-2xl bg-white text-black font-bold hover:bg-ng-gold-500 transition-all shadow-[0_10px_30px_rgba(255,255,255,0.05)] hover:shadow-ng-gold-500/20 active:scale-[0.98] disabled:opacity-50 min-w-[160px]"
+                  className="flex-1 sm:flex-none px-6 sm:px-10 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-white text-black font-bold hover:bg-ng-gold-500 transition-all shadow-[0_10px_30px_rgba(255,255,255,0.05)] hover:shadow-ng-gold-500/20 active:scale-[0.98] disabled:opacity-50 min-w-[140px] sm:min-w-[160px]"
                 >
-                  <span className="relative z-10 flex items-center justify-center gap-2">
+                  <span className="relative z-10 flex items-center justify-center gap-2 text-sm sm:text-base">
                     {form.isSubmitting ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
                     ) : (
