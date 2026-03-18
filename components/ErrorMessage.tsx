@@ -30,7 +30,7 @@ export const ErrorMessage: React.FC<ErrorMessageProps> = React.memo(({ message, 
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
                     transition={{ duration: ANIMATION_CONFIG.ERROR_ANIMATION_DURATION }}
-                    className={`bg-red-500/10 border-l-2 border-red-500 text-red-200 px-4 py-3 rounded-r mb-8 inline-flex items-center text-sm ${className}`}
+                    className={`bg-[#1a0505]/60 border border-red-500/20 text-red-400/90 px-4 sm:px-5 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl mb-6 sm:mb-8 inline-flex items-center text-xs sm:text-sm font-light tracking-wide backdrop-blur-md shadow-[0_0_20px_rgba(255,0,0,0.05)] ${className}`}
                     role="alert"
                     aria-live="polite"
                 >

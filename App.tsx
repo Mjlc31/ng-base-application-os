@@ -20,6 +20,7 @@ import { ApplicationForm } from './types';
 
 // Imports diretos para performance e estabilidade
 import { MeshBackground } from './components/ui/MeshBackground';
+import { MoneyRain } from './components/ui/MoneyRain';
 
 /**
  * Componente principal da aplicação
@@ -50,8 +51,9 @@ export default function App() {
   // Tela de sucesso
   if (form.isSuccess) {
     return (
-      <main className="min-h-[100dvh] relative font-sans text-white overflow-hidden bg-background flex flex-col items-center justify-center">
+      <main className="min-h-[100dvh] relative font-sans text-white bg-[#030303] flex flex-col items-center justify-center">
         <MeshBackground />
+        <MoneyRain />
         <PaymentScreen />
       </main>
     );
@@ -59,20 +61,21 @@ export default function App() {
 
   // Formulário principal
   return (
-    <main className="min-h-[100dvh] relative font-sans text-white overflow-hidden bg-background">
+    <main className="min-h-[100dvh] relative font-sans text-white bg-[#030303]">
       <MeshBackground />
+      <MoneyRain />
 
       {/* Main Layout Layer */}
-      <div className="relative z-10 min-h-[100dvh] flex items-center justify-center p-3 sm:p-6 md:p-10">
+      <div className="relative z-10 min-h-[100dvh] flex flex-col items-center justify-center p-3 pt-6 pb-24 sm:p-6 md:p-10 overflow-y-auto w-full">
         <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="w-full max-w-2xl bg-surface/40 backdrop-blur-2xl border border-white/5 rounded-[32px] sm:rounded-[40px] shadow-2xl relative overflow-hidden flex flex-col"
+           initial={{ opacity: 0, scale: 0.98 }}
+           animate={{ opacity: 1, scale: 1 }}
+           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+           className="w-full max-w-2xl bg-[#080808]/70 backdrop-blur-[40px] border border-white/5 border-t-white/10 rounded-[32px] sm:rounded-[40px] shadow-[0_30px_80px_rgba(0,0,0,0.9),inset_0_1px_0_rgba(255,255,255,0.1),inset_0_0_40px_rgba(197,160,89,0.02)] relative overflow-hidden flex flex-col my-auto"
         >
           {/* Subtle Accent Glows */}
-          <div className="absolute top-0 right-0 w-64 h-64 bg-ng-gold-500/5 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
-          <div className="absolute bottom-0 left-0 w-64 h-64 bg-ng-gold-400/5 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
+          <div className="absolute top-0 right-0 w-96 h-96 bg-ngGold-500/10 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-96 h-96 bg-ngGold-400/10 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2 pointer-events-none" />
 
           {/* Form Content Padding Container */}
           <div className="relative z-10 p-5 sm:p-12 flex flex-col flex-1">
@@ -95,7 +98,7 @@ export default function App() {
                   className="w-full"
                 >
                   <div className="mb-6 sm:mb-8">
-                    <span className="text-ng-gold-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-3 block">
+                    <span className="text-ngGold-500 text-[10px] uppercase tracking-[0.4em] font-bold mb-3 block">
                       Passo {form.currentStepIndex + 1} de {FORM_STEPS.length}
                     </span>
                     <h2 className="text-xl sm:text-3xl md:text-5xl font-serif font-bold text-white leading-[1.15] tracking-tight">
@@ -127,14 +130,17 @@ export default function App() {
                               }, 400);
                             }}
                             className={`
-                              relative text-left px-5 py-4 rounded-2xl border transition-all duration-300 w-full flex items-center justify-between group
+                              relative text-left px-5 py-4 rounded-2xl border transition-all duration-300 w-full flex items-center justify-between group overflow-hidden
                               ${form.formData[step.field] === opt
-                                ? 'border-ng-gold-500/50 bg-ng-gold-500/5 text-white'
-                                : 'bg-white/[0.02] border-white/5 text-white/40 hover:border-white/10 hover:bg-white/[0.04]'}
+                                ? 'border-ngGold-500 bg-ngGold-500/10 text-white shadow-[0_0_20px_rgba(197,160,89,0.15)]'
+                                : 'bg-white/[0.02] border-white/10 text-white/50 hover:border-white/30 hover:bg-white/[0.06] hover:text-white'}
                             `}
                           >
-                            <span className="font-sans font-light tracking-wide">{opt}</span>
-                            <div className={`w-2 h-2 rounded-full transition-all duration-500 ${form.formData[step.field] === opt ? 'bg-ng-gold-500 shadow-[0_0_10px_#C5A059]' : 'bg-white/5 opacity-0 group-hover:opacity-100'}`} />
+                            <span className="font-sans font-light tracking-wide relative z-10">{opt}</span>
+                            <div className={`w-2 h-2 rounded-full transition-all duration-500 relative z-10 ${form.formData[step.field] === opt ? 'bg-ngGold-500 shadow-[0_0_12px_#C5A059]' : 'bg-white/10 opacity-0 group-hover:opacity-100'}`} />
+                            {form.formData[step.field] === opt && (
+                              <div className="absolute inset-0 bg-gradient-to-r from-ngGold-500/0 via-ngGold-500/10 to-ngGold-500/0 translate-x-[-100%] animate-[shimmer_2s_infinite]" />
+                            )}
                           </motion.button>
                         ))}
                       </div>
@@ -175,8 +181,9 @@ export default function App() {
                 <button
                   onClick={form.handleNext}
                   disabled={form.isSubmitting}
-                  className="flex-1 sm:flex-none px-6 sm:px-10 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-white text-black font-bold hover:bg-ng-gold-500 transition-all shadow-[0_10px_30px_rgba(255,255,255,0.05)] hover:shadow-ng-gold-500/20 active:scale-[0.98] disabled:opacity-50 min-w-[140px] sm:min-w-[160px]"
+                  className="flex-1 sm:flex-none px-6 sm:px-10 py-3.5 sm:py-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-ngGold-400 to-ngGold-600 text-black font-bold hover:brightness-110 transition-all shadow-[0_10px_30px_rgba(197,160,89,0.2)] hover:shadow-[0_15px_40px_rgba(197,160,89,0.4)] active:scale-[0.98] disabled:opacity-50 min-w-[140px] sm:min-w-[160px] relative overflow-hidden group border border-ngGold-400/50"
                 >
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                   <span className="relative z-10 flex items-center justify-center gap-2 text-sm sm:text-base">
                     {form.isSubmitting ? (
                       <Loader2 className="w-5 h-5 animate-spin" />
@@ -195,11 +202,11 @@ export default function App() {
       </div>
 
       {/* Decorative Branding */}
-      <div className="fixed bottom-10 right-10 z-20 hidden lg:block select-none pointer-events-none opacity-20 hover:opacity-100 transition-opacity">
+      <div className="fixed bottom-10 right-10 z-20 hidden lg:block select-none pointer-events-none opacity-30 hover:opacity-100 transition-opacity">
         <div className="flex items-center gap-4 rotate-90 origin-bottom-right translate-y-full">
-          <span className="text-[10px] tracking-[0.6em] font-serif text-ng-gold-500">NG.RITMO</span>
-          <div className="w-20 h-[1px] bg-ng-gold-500/20" />
-          <span className="text-[9px] tracking-[0.2em] font-sans text-white/20 font-bold uppercase">Exclusive Protocol</span>
+          <span className="text-[10px] tracking-[0.8em] font-serif text-white/50 uppercase">Silicon Valley Pattern</span>
+          <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-ngGold-500/50 to-transparent" />
+          <span className="text-[10px] tracking-[0.6em] font-serif text-ngGold-500">NG.RITMO</span>
         </div>
       </div>
     </main>

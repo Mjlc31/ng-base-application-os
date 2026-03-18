@@ -29,7 +29,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = React.memo(({ progress, c
             aria-valuenow={progress}
         >
             <motion.div
-                className="absolute left-0 top-0 h-full bg-gradient-to-r from-ng-gold-600 via-ng-gold-500 to-ng-gold-400 shadow-[0_0_15px_rgba(197,160,89,0.5)]"
+                className="absolute left-0 top-0 h-full bg-gradient-to-r from-ngGold-600 via-ngGold-500 to-ngGold-400 shadow-[0_0_15px_rgba(197,160,89,0.5)]"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}

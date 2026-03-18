@@ -21,29 +21,28 @@ export const MoneyRain: React.FC = React.memo(() => {
     canvas.width = width;
     canvas.height = height;
 
+    // Espaçamento e quantidades ajustados para performance
     const isMobile = width < 768;
+    const dropCount = isMobile ? 35 : 80;
 
-    // Mais espaço entre as colunas para um visual mais limpo/arejado
-    // No mobile aumentamos significativamente o espaçamento e fonte para reduzir a contagem de elementos
-    const fontSize = isMobile ? 24 : 16;
-    const gapMultiplier = isMobile ? 4 : 1.5;
-    const columns = Math.floor(width / (fontSize * gapMultiplier));
+    const symbolsArray = ["€", "R$", "$", "₿"];
 
-    // Minimalist symbols
-    const symbols = "$R$";
+    // Array para propriedades das gotas de chuva dourada
+    const drops = Array.from({ length: dropCount }).map(() => ({
+      x: Math.random() * width,
+      y: Math.random() * height - height,
+      speed: Math.random() * 1.0 + 0.3, // velocidade muito suave e elegante
+      symbol: symbolsArray[Math.floor(Math.random() * symbolsArray.length)],
+      color: Math.random() > 0.5 ? '#C5A059' : '#EAC54F', // tons de dourado
+      opacity: Math.random() * 0.3 + 0.05,
+      scale: Math.random() * 0.4 + 0.6
+    }));
 
-    // Array to track y position of drops
-    const drops: number[] = [];
-    for (let i = 0; i < columns; i++) {
-      drops[i] = Math.random() * -100; // Start at random heights above
-    }
-
-    // Target FPS (12 FPS em mobile para poupar bateria e diminuir travamentos)
-    const targetFPS = isMobile ? 12 : 20;
+    // Target FPS (30 FPS em mobile para leveza e poupar bateria, 60 no desktop)
+    const targetFPS = isMobile ? 30 : 60;
     const frameInterval = 1000 / targetFPS;
 
     const draw = (currentTime: number) => {
-      // Throttle para manter FPS consistente
       const elapsed = currentTime - lastFrameTimeRef.current;
 
       if (elapsed < frameInterval) {
@@ -53,39 +52,36 @@ export const MoneyRain: React.FC = React.memo(() => {
 
       lastFrameTimeRef.current = currentTime - (elapsed % frameInterval);
 
-      // Trail effect: fill screen with very low opacity black for longer trails/smoother fade
-      ctx.fillStyle = 'rgba(5, 5, 5, 0.05)';
+      // Trail effect ultra suave
+      ctx.fillStyle = 'rgba(3, 3, 3, 0.15)';
       ctx.fillRect(0, 0, width, height);
 
-      // Use the serif font for a "luxury magazine" feel
-      ctx.font = `${fontSize}px "Bodoni Moda", serif`;
+      // Fonte elegante e luxuosa
+      ctx.font = `${isMobile ? 18 : 24}px "Bodoni Moda", serif`;
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
 
+      // Desenhar chuva dourada simbólica
       for (let i = 0; i < drops.length; i++) {
-        // Randomly choose color between Gold variants and subtle white
-        const rand = Math.random();
-        // 60% Gold (various shades), 40% White/Silver
-        if (rand > 0.4) {
-          ctx.fillStyle = rand > 0.7 ? '#C5A059' : '#EAC54F';
-        } else {
-          ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-        }
+        const drop = drops[i];
 
-        const text = symbols.charAt(Math.floor(Math.random() * symbols.length));
-        const x = i * fontSize;
-        const y = drops[i] * fontSize;
+        ctx.fillStyle = `rgba(${drop.color === '#C5A059' ? '197,160,89' : '234,197,79'}, ${drop.opacity})`;
+        
+        ctx.save();
+        ctx.translate(drop.x, drop.y);
+        ctx.scale(drop.scale, drop.scale);
+        ctx.fillText(drop.symbol, 0, 0);
+        ctx.restore();
 
-        // Only draw if within screen (optimization)
-        if (y < height + fontSize) {
-          // Removido globalAlpha randômico super pesado. O shimmer agora é puramente estático mas elegante
-          ctx.fillText(text, x, y);
-        }
+        // Animar para baixo
+        drop.y += drop.speed;
 
-        // Reset drop to top randomly or move down
-        // Slower movement: increment less
-        if (y > height && Math.random() > 0.985) {
-          drops[i] = 0;
+        // Resetar gota no topo
+        if (drop.y > height + 30) {
+          drop.y = -30;
+          drop.x = Math.random() * width;
+          drop.symbol = symbolsArray[Math.floor(Math.random() * symbolsArray.length)];
         }
-        drops[i] += 0.5; // Slower speed (was 1)
       }
 
       animationFrameRef.current = requestAnimationFrame(draw);
@@ -120,7 +116,7 @@ export const MoneyRain: React.FC = React.memo(() => {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none opacity-20 mix-blend-screen"
+      className="fixed inset-0 z-0 pointer-events-none opacity-40 mix-blend-screen"
       aria-hidden="true"
     />
   );

@@ -18,14 +18,15 @@ export const FormHeader: React.FC = React.memo(() => {
         >
             <div className="flex items-center gap-3 select-none">
                 <motion.div
-                    className="flex items-center gap-2.5"
+                    className="flex flex-col items-start gap-1"
                     whileHover={{ scale: 1.02 }}
                 >
-                    <div className="px-2.5 py-1 bg-gradient-to-br from-ng-gold-400 to-ng-gold-600 rounded-lg flex items-center justify-center font-bold text-black font-serif text-base shadow-[0_0_20px_rgba(197,160,89,0.2)]">
-                        NG
+                    <div className="flex items-center text-white font-serif tracking-tight leading-none">
+                        <span className="text-[2.5rem] font-bold">NG</span>
+                        <span className="text-[2.5rem] font-light text-white/90">.RITMO</span>
                     </div>
-                    <span className="font-bold text-xl tracking-[0.1em] text-white font-serif">
-                        RITMO
+                    <span className="text-[7.5px] tracking-[0.25em] text-ng-gold-500 font-sans font-bold uppercase ml-0.5">
+                        Community of Young Business.
                     </span>
                 </motion.div>
             </div>

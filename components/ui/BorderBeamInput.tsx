@@ -39,25 +39,25 @@ export const BorderBeamInput: React.FC<BorderBeamInputProps> = React.memo((({
       {/* The Glow/Beam Effect Container with breathing animation */}
       <motion.div
         animate={{
-          opacity: isFocused ? 1 : 0,
-          scale: isFocused ? [1, 1.02, 1] : 1
+          opacity: isFocused ? 0.6 : 0,
+          scale: isFocused ? [1, 1.01, 1] : 1
         }}
         transition={{
           scale: {
-            duration: 2,
+            duration: 3,
             repeat: Infinity,
             ease: "easeInOut"
           }
         }}
-        className="absolute -inset-[2px] rounded-xl bg-gradient-to-r from-ngGold-600 via-ngGold-400 to-ngGold-600 opacity-0 blur-md transition-all duration-500"
+        className="absolute -inset-[1px] rounded-xl bg-gradient-to-r from-ngGold-600 via-ngGold-400 to-ngGold-600 opacity-0 blur-sm transition-all duration-500"
         style={{ willChange: 'opacity, transform' }}
       />
 
       {/* Moving gradient animation when focused */}
       {isFocused && (
-        <div className="absolute -inset-[1px] rounded-xl overflow-hidden pointer-events-none">
+        <div className="absolute -inset-[1px] rounded-xl overflow-hidden pointer-events-none opacity-50">
           <div
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[500%] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_50%,#D4AF37_100%)] animate-spin-slow opacity-70"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[200%] h-[500%] bg-[conic-gradient(from_90deg_at_50%_50%,#00000000_70%,#D4AF37_100%)] animate-spin-slow"
             style={{ willChange: 'transform' }}
           />
         </div>
