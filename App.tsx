@@ -15,17 +15,15 @@ import { BorderBeamInput } from './components/ui/BorderBeamInput';
 import { ProgressBar } from './components/ProgressBar';
 import { FormHeader } from './components/FormHeader';
 import { ErrorMessage } from './components/ErrorMessage';
-import { PaymentScreen } from './components/PaymentScreen';
+import { SuccessScreen } from './components/PaymentScreen';
+import { LandingPage } from './components/LandingPage';
 import { ApplicationForm } from './types';
-
-// Imports diretos para performance e estabilidade
-import { MeshBackground } from './components/ui/MeshBackground';
-import { MoneyRain } from './components/ui/MoneyRain';
 
 /**
  * Componente principal da aplicação
  */
 export default function App() {
+  const [hasStarted, setHasStarted] = React.useState(false);
   const form = useFormStep(FORM_STEPS);
   const formRef = React.useRef(form);
 
@@ -52,9 +50,16 @@ export default function App() {
   if (form.isSuccess) {
     return (
       <main className="min-h-[100dvh] relative font-sans text-white bg-[#030303] flex flex-col items-center justify-center">
-        <MeshBackground />
-        <MoneyRain />
-        <PaymentScreen />
+        <SuccessScreen />
+      </main>
+    );
+  }
+
+  // Landing Page inicial
+  if (!hasStarted) {
+    return (
+      <main className="min-h-[100dvh] relative font-sans text-white bg-[#030303]">
+        <LandingPage onStart={() => setHasStarted(true)} />
       </main>
     );
   }
@@ -62,9 +67,6 @@ export default function App() {
   // Formulário principal
   return (
     <main className="min-h-[100dvh] relative font-sans text-white bg-[#030303]">
-      <MeshBackground />
-      <MoneyRain />
-
       {/* Main Layout Layer */}
       <div className="relative z-10 min-h-[100dvh] flex flex-col items-center justify-center p-3 pt-6 pb-24 sm:p-6 md:p-10 overflow-y-auto w-full">
         <motion.div
