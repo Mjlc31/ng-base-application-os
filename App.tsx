@@ -15,7 +15,7 @@ import { BorderBeamInput } from './components/ui/BorderBeamInput';
 import { ProgressBar } from './components/ProgressBar';
 import { FormHeader } from './components/FormHeader';
 import { ErrorMessage } from './components/ErrorMessage';
-import { SuccessScreen } from './components/PaymentScreen';
+
 import { LandingPage } from './components/LandingPage';
 import { ApplicationForm } from './types';
 
@@ -48,9 +48,10 @@ export default function App() {
 
   // Tela de sucesso
   if (form.isSuccess) {
+    window.location.href = 'https://ngritmo.nghub.com.br/concluido';
     return (
       <main className="min-h-[100dvh] relative font-sans text-white bg-[#030303] flex flex-col items-center justify-center">
-        <SuccessScreen />
+        <Loader2 className="w-12 h-12 animate-spin text-ngGold-500" />
       </main>
     );
   }
