@@ -15,7 +15,7 @@ import { BorderBeamInput } from './components/ui/BorderBeamInput';
 import { ProgressBar } from './components/ProgressBar';
 import { FormHeader } from './components/FormHeader';
 import { ErrorMessage } from './components/ErrorMessage';
-
+import { SuccessScreen } from './components/PaymentScreen';
 import { LandingPage } from './components/LandingPage';
 import { ApplicationForm } from './types';
 
@@ -23,6 +23,8 @@ import { ApplicationForm } from './types';
  * Componente principal da aplicação
  */
 export default function App() {
+  const isConcluidoPage = window.location.pathname === '/concluido';
+  
   const [hasStarted, setHasStarted] = React.useState(false);
   const form = useFormStep(FORM_STEPS);
   const formRef = React.useRef(form);
@@ -53,7 +55,16 @@ export default function App() {
     }
   };
 
-  // Tela de sucesso
+  // Tela de sucesso final (se chegou pela URL)
+  if (isConcluidoPage) {
+    return (
+      <main className="min-h-[100dvh] relative font-sans text-white bg-[#030303] flex flex-col items-center justify-center">
+        <SuccessScreen />
+      </main>
+    );
+  }
+
+  // Tela de carregamento enquanto redireciona
   if (form.isSuccess) {
     return (
       <main className="min-h-[100dvh] relative font-sans text-white bg-[#030303] flex flex-col items-center justify-center">
