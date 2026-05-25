@@ -31,6 +31,13 @@ export default function App() {
     formRef.current = form;
   }, [form]);
 
+  // Efeito para redirecionar ao sucesso
+  React.useEffect(() => {
+    if (form.isSuccess) {
+      window.location.href = 'https://ngritmo.nghub.com.br/concluido';
+    }
+  }, [form.isSuccess]);
+
   const step = FORM_STEPS[form.currentStepIndex];
   const progress = ((form.currentStepIndex + 1) / FORM_STEPS.length) * 100;
 
@@ -48,7 +55,6 @@ export default function App() {
 
   // Tela de sucesso
   if (form.isSuccess) {
-    window.location.href = 'https://ngritmo.nghub.com.br/concluido';
     return (
       <main className="min-h-[100dvh] relative font-sans text-white bg-[#030303] flex flex-col items-center justify-center">
         <Loader2 className="w-12 h-12 animate-spin text-ngGold-500" />
