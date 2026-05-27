@@ -12,6 +12,7 @@ const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({ url }) => {
   const [played, setPlayed] = useState(0);
   const [showControls, setShowControls] = useState(true);
   const [hasStarted, setHasStarted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true); // Inicia mutado para permitir autoplay
   
   const playerRef = useRef<ReactPlayer>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -45,6 +46,9 @@ const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({ url }) => {
   }, [hasStarted, playing]);
 
   const handlePlayPause = () => {
+    if (isMuted) {
+      setIsMuted(false);
+    }
     setPlaying(!playing);
     if (!hasStarted) setHasStarted(true);
   };
@@ -67,7 +71,7 @@ const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({ url }) => {
       clearTimeout(controlsTimeoutRef.current);
     }
     controlsTimeoutRef.current = setTimeout(() => {
-      if (playing) {
+      if (playing && !isMuted) {
         setShowControls(false);
       }
     }, 2500);
@@ -78,25 +82,20 @@ const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({ url }) => {
       ref={containerRef}
       className="w-full aspect-video bg-[#050505] border border-white/5 rounded-2xl sm:rounded-3xl shadow-[0_0_50px_rgba(0,0,0,0.8)] relative overflow-hidden group cursor-pointer"
       onMouseMove={handleMouseMove}
-      onMouseLeave={() => playing && setShowControls(false)}
+      onMouseLeave={() => playing && !isMuted && setShowControls(false)}
       onClick={handlePlayPause}
     >
       {/* Invisible overlay to block YouTube native clicks but let our clicks through */}
       <div className="absolute inset-0 z-10" />
 
-      {/* ReactPlayer Container */}
-      <div className="absolute inset-0 w-[300%] h-[300%] -top-[100%] -left-[100%] pointer-events-none opacity-0 transition-opacity duration-1000" style={{ opacity: hasStarted ? 1 : 0 }}>
-        {/* We scale the iframe container to crop out the youtube logo if needed, but react-player does a good job. 
-            Actually, let's keep it 100% and just use the overlay to block clicks. */}
-      </div>
-
-      <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none transition-opacity duration-1000" style={{ opacity: hasStarted ? 1 : 0 }}>
         <ReactPlayer
           ref={playerRef}
           url={url}
           width="100%"
           height="100%"
           playing={playing}
+          muted={isMuted}
           controls={false}
           onProgress={handleProgress}
           onPlay={() => setPlaying(true)}
@@ -117,7 +116,7 @@ const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({ url }) => {
       </div>
 
       {/* Custom Overlay & Controls */}
-      <div className={`absolute inset-0 flex flex-col justify-between transition-opacity duration-500 z-20 ${showControls || !playing ? 'opacity-100' : 'opacity-0'}`}>
+      <div className={`absolute inset-0 flex flex-col justify-between transition-opacity duration-500 z-20 ${showControls || !playing || isMuted ? 'opacity-100' : 'opacity-0'}`}>
         
         {/* Top Header / Warning */}
         <div className="w-full p-6 bg-gradient-to-b from-black/80 to-transparent flex items-start">
@@ -130,7 +129,17 @@ const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({ url }) => {
         {/* Big Center Play/Pause Button */}
         <div className="absolute inset-0 flex items-center justify-center">
           <AnimatePresence>
-            {(!playing || showControls) && (
+            {isMuted && playing ? (
+               <motion.button
+                 initial={{ scale: 0.8, opacity: 0 }}
+                 animate={{ scale: 1, opacity: 1 }}
+                 exit={{ scale: 0.8, opacity: 0 }}
+                 onClick={(e) => { e.stopPropagation(); setIsMuted(false); setPlaying(true); }}
+                 className="px-6 py-3 bg-ngGold-500 text-black font-bold rounded-full shadow-[0_0_30px_rgba(197,160,89,0.5)] uppercase tracking-widest text-xs sm:text-sm hover:scale-105 transition-transform"
+               >
+                 Clique para ativar o som
+               </motion.button>
+            ) : (!playing || showControls) ? (
               <motion.div 
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -143,7 +152,7 @@ const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({ url }) => {
                   <Play className="w-10 h-10 text-white ml-2" fill="currentColor" />
                 )}
               </motion.div>
-            )}
+            ) : null}
           </AnimatePresence>
         </div>
 
@@ -172,8 +181,6 @@ const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({ url }) => {
                 background: `linear-gradient(to right, #C5A059 ${played * 100}%, rgba(255,255,255,0.2) ${played * 100}%)`
               }}
             />
-            {/* Tailwind classes for the range thumb thumb styling is best done in index.css, 
-                but for simplicity inline style gradient works perfectly for the track. */}
           </div>
         </div>
       </div>
