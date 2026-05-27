@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, ArrowRight, XCircle, CheckCircle2, TrendingUp, Clock, FileText, ChevronDown } from 'lucide-react';
+import { Play, ArrowRight, XCircle, CheckCircle2, TrendingUp, Clock, FileText, ChevronDown, Calendar, MapPin, Ticket } from 'lucide-react';
 
 interface LandingPageProps {
   onStart: () => void;
@@ -72,6 +72,30 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
               allowFullScreen
             ></iframe>
+          </div>
+
+          {/* Event Info */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full mt-10">
+            <div className="flex flex-col items-center justify-center p-5 bg-white/[0.02] border border-white/5 rounded-2xl">
+              <Calendar className="w-6 h-6 text-ngGold-500 mb-3" />
+              <span className="text-sm font-bold text-white mb-1">13 de Junho de 2026</span>
+              <span className="text-[10px] text-white/40 uppercase tracking-widest">Data do Evento</span>
+            </div>
+            <div className="flex flex-col items-center justify-center p-5 bg-white/[0.02] border border-white/5 rounded-2xl">
+              <Clock className="w-6 h-6 text-ngGold-500 mb-3" />
+              <span className="text-sm font-bold text-white mb-1">08:00 às 18:00</span>
+              <span className="text-[10px] text-white/40 uppercase tracking-widest">Horário</span>
+            </div>
+            <div className="flex flex-col items-center justify-center p-5 bg-white/[0.02] border border-white/5 rounded-2xl">
+              <MapPin className="w-6 h-6 text-ngGold-500 mb-3" />
+              <span className="text-sm font-bold text-white mb-1">Studio Meraki</span>
+              <span className="text-[10px] text-white/40 uppercase tracking-widest">Local</span>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center gap-3 text-ngGold-400 mt-4 mb-2 bg-ngGold-500/10 px-6 py-3 rounded-full border border-ngGold-500/20 text-center sm:text-left">
+            <Ticket className="w-5 h-5 animate-pulse shrink-0" />
+            <span className="text-sm font-medium tracking-wide">Atenção: Ingresso ainda em preço de primeiro lote.</span>
           </div>
 
           {/* PRIMARY CTA (Closer to VSL) */}
