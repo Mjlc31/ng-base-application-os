@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, ArrowRight, XCircle, CheckCircle2, TrendingUp, Clock, FileText, ChevronDown, Calendar, MapPin, Ticket } from 'lucide-react';
+import { Play, ArrowRight, XCircle, CheckCircle2, TrendingUp, Clock, FileText, ChevronDown, Calendar, MapPin, Ticket, Settings, ShieldCheck } from 'lucide-react';
 
 interface LandingPageProps {
   onStart: () => void;
@@ -134,6 +134,63 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
             transition={{ duration: 0.8, ease: "easeOut" }}
             className="w-full flex flex-col items-center bg-[#030303] pb-24 border-t border-white/5 mt-8 pt-8"
           >
+            {/* ABOUT EVENT SECTION */}
+            <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8">
+              <div className="flex flex-col items-center text-center mb-16">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold text-white mb-8">
+                  O que é o <span className="text-ngGold-500">NG.RITMO?</span>
+                </h2>
+                <div className="flex flex-col gap-6 text-white/70 text-base sm:text-lg font-light leading-relaxed max-w-4xl text-left md:text-center">
+                  <p>
+                    O NG.RITMO é a imersão presencial da NG Hub desenhada especificamente para gerar tração comercial e ganho de escala em negócios da economia real. Ele é o segundo degrau do método evolutivo das empresas. Se o evento anterior (NG.BASE) serviu para organizar a fundação e o caixa, o RITMO serve para <strong className="text-white font-medium">abrir a torneira de vendas sem deixar o motor da operação explodir</strong> por falta de capacidade de entrega.
+                  </p>
+                  <p>
+                    O evento resolve o problema do empresário que até tem demanda, mas não tem previsibilidade e acabou se tornando o principal gargalo do próprio CNPJ.
+                  </p>
+                  <p className="text-white font-medium text-xl mt-4">
+                    A entrega técnica é puramente focada em execução e dividida em três frentes:
+                  </p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {/* Pilar 1 */}
+                <div className="bg-[#0A0A0A] border border-white/5 p-8 rounded-3xl hover:border-ngGold-500/30 transition-colors group flex flex-col items-center md:items-start text-center md:text-left">
+                  <div className="w-14 h-14 rounded-2xl bg-ngGold-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <Settings className="w-7 h-7 text-ngGold-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-4">O Motor Operacional</h3>
+                  <p className="text-white/50 text-sm sm:text-base leading-relaxed">
+                    Como mapear processos de passagem de bastão e gerir a produtividade para que a empresa funcione sem depender da memória ou da presença constante do dono.
+                  </p>
+                </div>
+
+                {/* Pilar 2 */}
+                <div className="bg-[#0A0A0A] border border-white/5 p-8 rounded-3xl hover:border-ngGold-500/30 transition-colors group flex flex-col items-center md:items-start text-center md:text-left">
+                  <div className="w-14 h-14 rounded-2xl bg-ngGold-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <TrendingUp className="w-7 h-7 text-ngGold-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-4">A Engenharia da Demanda</h3>
+                  <p className="text-white/50 text-sm sm:text-base leading-relaxed">
+                    Como parar de brigar por preço construindo uma marca forte e dominar a matemática de atração de clientes através de métricas precisas (CAC e LTV).
+                  </p>
+                </div>
+
+                {/* Pilar 3 */}
+                <div className="bg-[#0A0A0A] border border-white/5 p-8 rounded-3xl hover:border-ngGold-500/30 transition-colors group flex flex-col items-center md:items-start text-center md:text-left">
+                  <div className="w-14 h-14 rounded-2xl bg-ngGold-500/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+                    <ShieldCheck className="w-7 h-7 text-ngGold-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-white mb-4">A Blindagem do Crescimento</h3>
+                  <p className="text-white/50 text-sm sm:text-base leading-relaxed">
+                    Como plugar a infraestrutura tecnológica correta (CRM e ERP) e manter os melhores talentos engajados para suportar o peso do aumento de vendas.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full max-w-4xl mx-auto h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent my-12" />
+
             {/* QUALIFICATION SECTION */}
             <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
               
