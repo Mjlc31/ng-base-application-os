@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, ArrowRight, XCircle, CheckCircle2, TrendingUp, Clock, FileText, ChevronDown } from 'lucide-react';
-import CustomVideoPlayer from './CustomVideoPlayer';
 
 interface LandingPageProps {
   onStart: () => void;
@@ -64,7 +63,16 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
           </p>
 
           {/* VSL Player */}
-          <CustomVideoPlayer url="https://www.youtube.com/watch?v=ll7rzQh22LM" />
+          <div className="w-full aspect-video bg-[#111111] border border-white/5 rounded-2xl sm:rounded-3xl shadow-xl relative overflow-hidden">
+            <iframe 
+              className="absolute top-0 left-0 w-full h-full"
+              src="https://www.youtube.com/embed/ll7rzQh22LM?rel=0&modestbranding=1&controls=1" 
+              title="Apresentação NGRITMO" 
+              frameBorder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowFullScreen
+            ></iframe>
+          </div>
 
           {/* PRIMARY CTA (Closer to VSL) */}
           <AnimatePresence>
