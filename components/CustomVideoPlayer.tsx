@@ -86,9 +86,7 @@ const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({ url }) => {
       onClick={handlePlayPause}
     >
       {/* Invisible overlay to block YouTube native clicks but let our clicks through */}
-      <div className="absolute inset-0 z-10" />
-
-      <div className="absolute inset-0 pointer-events-none transition-opacity duration-1000" style={{ opacity: hasStarted ? 1 : 0 }}>
+      <div className="absolute inset-0 z-0 pointer-events-none">
         <ReactPlayer
           ref={playerRef}
           url={url}
@@ -112,6 +110,7 @@ const CustomVideoPlayer: React.FC<CustomVideoPlayerProps> = ({ url }) => {
               }
             }
           }}
+          style={{ position: 'absolute', top: 0, left: 0 }}
         />
       </div>
 
