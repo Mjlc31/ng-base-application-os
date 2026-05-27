@@ -319,6 +319,20 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
                    </div>
                  ))}
                </div>
+
+               {/* Extra CTA in Social Proof */}
+               <div className="mt-16 flex justify-center w-full">
+                 <button
+                   onClick={onStart}
+                   className="w-full sm:w-auto min-w-[320px] px-8 sm:px-12 py-5 rounded-2xl bg-gradient-to-r from-ngGold-400 to-ngGold-600 text-black font-bold text-lg hover:brightness-110 transition-all shadow-[0_10px_30px_rgba(197,160,89,0.2)] hover:shadow-[0_15px_40px_rgba(197,160,89,0.4)] active:scale-[0.98] relative overflow-hidden group border border-ngGold-400/50 uppercase tracking-wide"
+                 >
+                   <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                   <span className="relative z-10 flex items-center justify-center gap-3">
+                     INICIAR MINHA APLICAÇÃO
+                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                   </span>
+                 </button>
+               </div>
             </div>
 
             {/* FAQ */}
