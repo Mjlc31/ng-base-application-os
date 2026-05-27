@@ -44,9 +44,9 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
   ];
 
   return (
-    <div className="relative z-10 min-h-[100dvh] flex flex-col items-center bg-[#000000] overflow-y-auto w-full font-sans text-white selection:bg-ngGold-500 selection:text-black">
+    <div className="relative z-10 min-h-[100dvh] flex flex-col items-center bg-[#000000] overflow-x-hidden overflow-y-auto w-full font-sans text-white selection:bg-ngGold-500 selection:text-black">
       {/* VSL SECTION (Always Visible) */}
-      <section className="w-full flex flex-col items-center justify-center min-h-[100dvh] px-4 py-12 sm:px-6 lg:px-8">
+      <section className="w-full flex flex-col items-center justify-start pt-12 sm:pt-20 pb-8 px-4 sm:px-6 lg:px-8 min-h-[85vh]">
         <div className="max-w-4xl w-full mx-auto flex flex-col items-center text-center">
           
           <div className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/[0.02] border border-white/10 mb-8 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
@@ -62,14 +62,41 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
             O ecossistema onde empresários revelam a engenharia exata para estruturar processos, blindar o lucro e fazer a operação girar sem depender do dono.
           </p>
 
-          {/* VSL Player Placeholder */}
-          <div className="w-full aspect-video bg-[#111111] border border-white/5 rounded-2xl sm:rounded-3xl shadow-2xl relative overflow-hidden flex items-center justify-center group cursor-pointer hover:border-ngGold-500/30 transition-colors duration-500">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent pointer-events-none" />
-            <div className="w-20 h-20 sm:w-24 sm:h-24 bg-ngGold-500/10 rounded-full flex items-center justify-center backdrop-blur-sm border border-ngGold-500/20 group-hover:scale-110 transition-transform duration-500 ease-out shadow-[0_0_50px_rgba(197,160,89,0.1)]">
-              <Play className="w-8 h-8 sm:w-10 sm:h-10 text-ngGold-500 ml-2" fill="currentColor" />
-            </div>
-            <span className="absolute bottom-4 left-4 text-xs font-mono text-white/30 tracking-widest uppercase">NGRITMO.VSL.v1</span>
+          {/* VSL Player */}
+          <div className="w-full aspect-video bg-[#111111] border border-white/5 rounded-2xl sm:rounded-3xl shadow-xl relative overflow-hidden">
+            <iframe 
+              className="absolute top-0 left-0 w-full h-full"
+              src="https://www.youtube.com/embed/ll7rzQh22LM?rel=0&modestbranding=1&controls=1" 
+              title="Apresentação NGRITMO" 
+              frameBorder="0" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+              allowFullScreen
+            ></iframe>
           </div>
+
+          {/* PRIMARY CTA (Closer to VSL) */}
+          <AnimatePresence>
+            {showPitch && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="w-full mt-8 sm:mt-10 flex flex-col items-center"
+              >
+                 <button
+                  onClick={onStart}
+                  className="w-full sm:w-auto min-w-[320px] px-8 sm:px-12 py-5 rounded-2xl bg-gradient-to-r from-ngGold-400 to-ngGold-600 text-black font-bold text-lg hover:brightness-110 transition-all shadow-[0_10px_30px_rgba(197,160,89,0.2)] hover:shadow-[0_15px_40px_rgba(197,160,89,0.4)] active:scale-[0.98] relative overflow-hidden group border border-ngGold-400/50 uppercase tracking-wide"
+                >
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                  <span className="relative z-10 flex items-center justify-center gap-3">
+                    INICIAR MINHA APLICAÇÃO
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
+                </button>
+                <p className="mt-4 text-white/40 text-xs tracking-widest uppercase font-sans">Acesso restrito via seleção técnica</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
         </div>
       </section>
@@ -78,26 +105,11 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
       <AnimatePresence>
         {showPitch && (
           <motion.section
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full flex flex-col items-center bg-[#030303] pb-24"
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="w-full flex flex-col items-center bg-[#030303] pb-24 border-t border-white/5 mt-8 pt-8"
           >
-            {/* CTA SECTION */}
-            <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex flex-col items-center border-t border-white/5">
-               <button
-                onClick={onStart}
-                className="w-full sm:w-auto min-w-[320px] px-8 sm:px-12 py-5 rounded-2xl bg-gradient-to-r from-ngGold-400 to-ngGold-600 text-black font-bold text-lg hover:brightness-110 transition-all shadow-[0_15px_40px_rgba(197,160,89,0.3)] hover:shadow-[0_20px_50px_rgba(197,160,89,0.5)] active:scale-[0.98] relative overflow-hidden group border border-ngGold-400/50 uppercase tracking-wide"
-              >
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-                <span className="relative z-10 flex items-center justify-center gap-3">
-                  INICIAR MINHA APLICAÇÃO
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-              </button>
-              <p className="mt-4 text-white/30 text-xs tracking-widest uppercase font-sans">Acesso restrito via seleção técnica</p>
-            </div>
-
             {/* QUALIFICATION SECTION */}
             <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
               
@@ -183,6 +195,8 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
                       <img 
                         src={`/${imgName}`} 
                         alt={`Evento NGRITMO`} 
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105 relative z-0" 
                       />
                       
@@ -263,10 +277,10 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onStart }) => {
             </div>
 
             {/* Bottom CTA (Repeated) */}
-            <div className="w-full flex justify-center pb-12 px-4">
+            <div className="w-full flex justify-center pb-12 pt-8 px-4">
                <button
                 onClick={onStart}
-                className="w-full sm:w-auto min-w-[320px] px-8 sm:px-12 py-5 rounded-2xl bg-gradient-to-r from-ngGold-400 to-ngGold-600 text-black font-bold text-lg hover:brightness-110 transition-all shadow-[0_15px_40px_rgba(197,160,89,0.3)] hover:shadow-[0_20px_50px_rgba(197,160,89,0.5)] active:scale-[0.98] relative overflow-hidden group border border-ngGold-400/50 uppercase tracking-wide"
+                className="w-full sm:w-auto min-w-[320px] px-8 sm:px-12 py-5 rounded-2xl bg-gradient-to-r from-ngGold-400 to-ngGold-600 text-black font-bold text-lg hover:brightness-110 transition-all shadow-[0_10px_30px_rgba(197,160,89,0.2)] hover:shadow-[0_15px_40px_rgba(197,160,89,0.4)] active:scale-[0.98] relative overflow-hidden group border border-ngGold-400/50 uppercase tracking-wide"
               >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
                 <span className="relative z-10 flex items-center justify-center gap-3">
